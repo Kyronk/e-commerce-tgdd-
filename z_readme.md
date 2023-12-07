@@ -6,5 +6,3 @@
     + database mongoDB (type ORM)
     + frontend ReactJS
 
-
-#

@@ -13,7 +13,7 @@ const verifyAccessToken = asyncHandler(async (req, res, next) => {
                 success: false,
                 mes: "Invalid access token"
             })   
-            console.log(decode);
+            // console.log(decode);
             req.user = decode;
             next();
         })
@@ -23,8 +23,19 @@ const verifyAccessToken = asyncHandler(async (req, res, next) => {
             mes: "Require authentication !!!"
         })
     }
-})
+});
+
+const isAdmin = asyncHandler(async (req, res, next) => {
+    const { role } = req.user;
+    if(role !== "admin")
+    return res.status(401).json({
+        success: false,
+        mes: "REQUIRE ADMIN ROLE",
+    });
+    next();
+});
 
 module.exports = {
     verifyAccessToken,
+    isAdmin, 
 }

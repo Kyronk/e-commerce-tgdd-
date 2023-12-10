@@ -1,0 +1,56 @@
+const mongoose = require('mongoose'); // Erase if already required
+
+// Declare the Schema of the Mongo model
+var blogSchema = new mongoose.Schema({
+    title:{
+        type:String,
+        required:true,
+    },
+    description:{
+        type:String,
+        required:true,
+    },
+    category:{
+        type:String,
+        required:true,
+    },
+    numberViews:{
+        type:Number,
+        default: 0
+    },
+    isLiked: {
+        type: Boolean,
+        default: false
+    },
+    isDisliked: {
+        type: Boolean,
+        default: false,
+    }, 
+    likes: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    dislike: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "user"
+        }
+    ],
+    image: {
+        type: String,
+        default: "https://c.pxhere.com/photos/7c/dd/workspace_workplace_working_desktop_mac-1410087.jpg!d"
+    },
+    author: {
+        type: String,
+        default: "Admin"
+    }
+}, {
+    timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: { virtuals: true}
+});
+
+//Export the model
+module.exports = mongoose.model('Blog', blogSchema);

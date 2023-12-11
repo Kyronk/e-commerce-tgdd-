@@ -163,6 +163,9 @@ const ratings = asyncHandle(async (req, res) => {
     })
 });
 
+// upload image
+
+
 module.exports = {
     creteProduct,
     getOneProduct,

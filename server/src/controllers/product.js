@@ -164,6 +164,21 @@ const ratings = asyncHandle(async (req, res) => {
 });
 
 // upload image
+// up ảnh cho sản phẩm
+// 1 sản phẩm có thể có một hoặc nhiều ảnh 
+// => up 1 hoặc nhiều ảnh
+
+const uploadImageProduct = asyncHandle(async (req, res) => {
+    // console.log(req.files);
+    const {pid} = req.params;
+    if(!req.files) throw new Error("Missing inputs");
+    const response = await Product.findByIdAndUpdate(pid, {$push : {images: {$each: req.files.map(el => el.path)}}}, {new: true});
+
+    return res.status(200).json({
+        success: response ? true : false,
+        updateProduct: response ? response : "cannot update images"
+    })
+})
 
 
 module.exports = {
@@ -173,4 +188,5 @@ module.exports = {
     updateProduct,
     deleteProduct,
     ratings,
+    uploadImageProduct,
 }

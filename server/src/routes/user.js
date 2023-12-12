@@ -29,7 +29,9 @@ router.get("/getusers-test", [verifyAccessToken, isAdmin], ctrl.getListUser); //
 router.use(verifyAccessToken);
 router.get("/getusers", isAdmin , ctrl.getListUser);
 router.delete("/", isAdmin , ctrl.deleteUser);
+router.put("/address", ctrl.updateAddress);
 router.put("/current", ctrl.updateUser);
+router.post("/cart", ctrl.updateCart);
 router.put("/:uid", isAdmin, ctrl.updateUserByAdmin);
 // tất cả các route viết dưới này đều phải xác thực người dùng thông qua token
 

@@ -5,7 +5,10 @@ const ctrl = require("../controllers/order");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
 
-router.post("/create", [verifyAccessToken, isAdmin], ctrl.createOrder);
+router.post("/create", verifyAccessToken, ctrl.createOrder);
+router.put("/status/:oid", [verifyAccessToken, isAdmin], ctrl.updateStatus);
+router.get("/user", verifyAccessToken, ctrl.getUserOrder);
+router.get("/admin", [verifyAccessToken, isAdmin], ctrl.getListOrder);
 
 // router.get("/list", ctrl.getListBrand);
 // router.put("/:brandid", [verifyAccessToken, isAdmin], ctrl.updateBrand);

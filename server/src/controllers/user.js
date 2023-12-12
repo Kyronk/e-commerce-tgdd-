@@ -277,8 +277,9 @@ const updateCart = asyncHandler(async (req, res) => {
             updateCart: response ? response : "something went wrong"
         })
     }
-
 });
+
+
 
 
 module.exports = {

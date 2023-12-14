@@ -8,8 +8,9 @@ var productCategorySchema = new mongoose.Schema({
         unique:true,
         index:true,
     },
-    description: {
-        type:String
+    branch: {
+        type: Array,
+        require: true
     }
 
 }, {

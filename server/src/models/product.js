@@ -16,26 +16,30 @@ var productSchema = new mongoose.Schema({
     slug:{
         type:String,
         required:true,
-        unique:true,
+        // unique:true,
         lowercase: true
     },
     description:{
-        type:String,
+        type:Array,
         required:true,
     },
     // tên hãng
     brand:{
         type:String,
-        required:true,
+        // required:true,
     },
     price:{
         type:Number,
         required:true,
     },
     // thể loại : đồng hồ , máy tính bảng, laptop || hạng mục
-    category:{
-        type:mongoose.Types.ObjectId,
-        ref: "Category"
+    // category:{
+    //     type:mongoose.Types.ObjectId,
+    //     ref: "Category"
+    // },
+    category: {
+        type: String,
+        require: true
     },
     quantity:{
         type:Number,
@@ -51,7 +55,8 @@ var productSchema = new mongoose.Schema({
     },
     color:{
         type:String,
-        enum: ["Black", "Grown", "Red"]
+        require: true
+        // enum: ["Black", "Grown", "Red"]
     },
     ratings: [
         {

@@ -4,8 +4,15 @@ require("dotenv").config();
 const dbConnect = require("./src/config/dbconnect");
 const initRoutes = require("./src/routes/index");
 const cookieParse = require("cookie-parser");
+const cors = require("cors");
+
 
 const app = express();
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+}))
+
 app.use(cookieParse());
 const port = process.env.PORT || 8888;
 

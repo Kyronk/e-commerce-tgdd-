@@ -17,6 +17,9 @@ module.exports = {
             },
             color: {
                 main: "#ee3131"
+            },
+            textColor: {
+                main: "red"
             }
         },
     },

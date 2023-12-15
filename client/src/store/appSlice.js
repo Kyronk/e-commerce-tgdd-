@@ -23,7 +23,7 @@ export const appSlice = createSlice({
 
             // tắt trạng thái loading, lưu dũ liệu vào store
             state.isLoading = false;
-            state.categories = action.payload
+            state.categories = action.payload;
         })
 
         //khi thực hiện thất bại

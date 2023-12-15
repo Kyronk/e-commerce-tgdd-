@@ -16,8 +16,8 @@ const Sidebar = () => {
     // }
 
     const { categories } = useSelector(state => state.app);
-    const app = useSelector(state => state.app)
-    console.log(app) 
+    // const app = useSelector(state => state)
+    console.log(categories) 
 
     // useEffect(() => {
         // fetchCategories();
@@ -37,7 +37,6 @@ const Sidebar = () => {
                 : "px-5 pt-[15px] pb-[14px] text-sm hover:text-main"}
                 >
                     {el.title}
-                    {createSlug(el.title)}
                 </NavLink>
             ))}
         </div>

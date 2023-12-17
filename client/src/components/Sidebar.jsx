@@ -17,7 +17,7 @@ const Sidebar = () => {
 
     const { categories } = useSelector(state => state.app);
     // const app = useSelector(state => state)
-    console.log(categories) 
+    // console.log(categories) 
 
     // useEffect(() => {
         // fetchCategories();

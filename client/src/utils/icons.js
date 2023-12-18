@@ -1,13 +1,20 @@
 import { MdLocalPhone } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag, FaEye,  FaHeart } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import { IoIosStar, IoIosStarOutline, IoMdMenu  } from "react-icons/io";
 
 const icons = {
     MdLocalPhone,
     AiOutlineMail,
     FaShoppingBag,
     FaUser,
+    IoIosStar,
+    IoIosStarOutline,
+    FaEye,
+    IoMdMenu,
+    FaHeart,
+
 };
 
 export default icons;

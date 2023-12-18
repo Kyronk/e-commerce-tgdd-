@@ -3,8 +3,8 @@ import { navigation } from "../utils/contants"
 
 import { NavLink } from "react-router-dom";
 
-const notActivedStyle = "";
-const activedStyle = "";
+// const notActivedStyle = "";
+// const activedStyle = "";
 
 
 const Navigation = () => {

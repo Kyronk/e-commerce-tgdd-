@@ -1,5 +1,7 @@
 # các thư viện cài đặt react js
     npm install -D tailwindcss , npx tailwindcss init : tải thư viện tailwindcss
+    * module của tailwind
+    npm i @tailwindcss/line-clamp
 
     react-router-dom 
     redux-persist
@@ -7,7 +9,9 @@
     moment
     axios : https://axios-http.com/docs/interceptors
     
-
+    react-slick: để làm cái tick tick next trang: đi kèm theo thằng này npm install slick-carousel
+    
+    
 
 
 

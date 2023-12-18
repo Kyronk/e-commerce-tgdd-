@@ -28,6 +28,10 @@ var productSchema = new mongoose.Schema({
         type:String,
         // required:true,
     },
+    thumb: {
+        type: String,
+        require: true,
+    },
     price:{
         type:Number,
         required:true,

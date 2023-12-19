@@ -56,13 +56,13 @@ const BestSeller = () => {
 
     return (
         <div>
-            <div className='flex text-[20px] gap-8 pb-4 border-b-2 border-red-700'>
+            <div className='flex text-[20px] gap-4 pb-4 border-b-2 border-red-700'>
                 {/* <span className='font-bold capitalize border-r'>Best Seller</span> */}
                 {tabs.map((el) => (
                     <span
                         // className='font-bold capitalize border-r' 
                         key={el.id}
-                        className={`font-bold capitalize border-r cursor-pointer ${activeTab === el.id ? "text-black" : "text-gray-400"}`}
+                        className={`font-bold capitalize p-3 border-r cursor-pointer ${activeTab === el.id ? "text-black" : "text-gray-400"}`}
                         onClick={() => setActiveTab(el.id)}
                     >{el.name}</span>
                 ))}

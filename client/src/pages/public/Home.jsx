@@ -1,10 +1,14 @@
 import React from 'react'
-import {Banner, BestSeller, Sidebar, DealDaily, FeatureProducts} from "../../components";
+import {Banner, BestSeller, Sidebar, DealDaily, FeatureProducts, CustomSlider} from "../../components";
+import { useSelector } from "react-redux";
+import icons from "../../utils/icons";
 
 
-
+const {MdArrowForwardIos} = icons;
 const Home = () => {
-
+    const { newProductList } = useSelector(state => state.productList);
+    const { categories } = useSelector(state => state.app);
+    // console.log(categories)
 
     return (
         <>
@@ -12,7 +16,8 @@ const Home = () => {
                 <div className='flex flex-col gap-5 w-[25%] flex-auto '>
                     <Sidebar/>
                     {/* <span>Deal daily</span> */}
-                    <DealDaily />
+
+                    {/* <DealDaily /> */}
                 </div>
                 <div className="flex flex-col gap-5 pl-5 w-[75%] flex-auto ">
                     <Banner />
@@ -25,8 +30,54 @@ const Home = () => {
             <div className='my-8'>
                 <FeatureProducts />
             </div>
+
+            <div className='my-8'>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700'>NEW ARRIVALS</h3>
+                <div className='mt-4 mx-[-10px]'>
+                    <CustomSlider 
+                        productList={newProductList}
+                    />
+                </div>
+            </div>
         
-            <div className='w-full h-[500px]'></div>
+            <div className='my-8 w-full'>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700'>HOT COLLECTIONS</h3>
+                <div className='flex flex-wrap gap-4 mt-4'>
+                    {categories?.filter(el => el.brand.length > 0)?.map(el => (
+                        <div 
+                            className='w-[396px]'
+                            key={el._id}
+                            >
+                            
+                            <div className='border flex'>
+                                <img src={el?.image} alt="" className=' w-[144px] flex-1 h-[129px] object-cover' />
+                                <div className='flex-1 text-gray-700'>
+                                    <h4 className='font-semibold uppercase'>{el.title}</h4>
+                                    <ul className='text-sm'>
+                                        {el?.brand?.map(item => (
+                                            <span 
+                                                key={item}
+                                                className='flex gap-1 items-center text-gray-500'>
+                                                <MdArrowForwardIos />
+                                                <li  >{item}</li>
+                                            </span>
+                                        ))}
+                                    </ul>                                                                   
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    
+                </div>
+            </div>
+
+            <div className='my-8 w-full'>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700'>BLOG POSTS</h3>
+            </div>
+
+            {/* <div className='w-full h-[500px] bg-main'>
+                FOOTER
+            </div> */}
         </>
     )
 }

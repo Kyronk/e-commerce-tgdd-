@@ -7,6 +7,10 @@ import { renderStarFromNumber } from "../utils/helpers";
 
 import { SelectOption } from "./";
 import icons from '../utils/icons';
+
+import { Link } from 'react-router-dom';
+import path from '../utils/path';
+
 const { FaEye,IoMdMenu, FaHeart } = icons;
 
 const Product = ({ProductData, isNew}) => {
@@ -15,7 +19,8 @@ const Product = ({ProductData, isNew}) => {
 
     return (
         <div className='w-full text-base px-[10px]'>
-            <div 
+            <Link 
+                to={`${path.DETAIL_PRODUCT}/${ProductData?._id}/${ProductData?.title}`}
                 className='w-full border p-[15px] flex flex-col items-center'
                 onMouseEnter={e => {
                     e.stopPropagation()
@@ -54,12 +59,14 @@ const Product = ({ProductData, isNew}) => {
                 
 
                 <div className='flex flex-col mt-[15px] items-start gap-1 w-full'>
-                    <span className='flex h-4'>{renderStarFromNumber(ProductData?.totalRatings)}</span>
                     <span className='line-clamp-1'>{ProductData?.title}</span>
+                    <span className='flex h-4'>{renderStarFromNumber(ProductData?.totalRatings)?.map((el, index) => (
+                        <span key={index}>{el}</span>
+                    ))}</span>
                     
                     <span>{`${formatMoney(ProductData?.price)} VNĐ`} </span>
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { MdLocalPhone } from "react-icons/md";
+import { MdLocalPhone, MdArrowForwardIos } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaShoppingBag, FaEye,  FaHeart } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
@@ -14,6 +14,7 @@ const icons = {
     FaEye,
     IoMdMenu,
     FaHeart,
+    MdArrowForwardIos,
 
 };
 

@@ -11,7 +11,11 @@ var productCategorySchema = new mongoose.Schema({
     brand: {
         type: Array,
         require: true
-    }
+    },
+    image: {
+        type: String,
+        require: true
+    },
 
 }, {
     timestamps: true

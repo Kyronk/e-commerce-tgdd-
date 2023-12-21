@@ -8,6 +8,8 @@ const {MdArrowForwardIos} = icons;
 const Home = () => {
     const { newProductList } = useSelector(state => state.productList);
     const { categories } = useSelector(state => state.app);
+    const { isLoggedIn, current } = useSelector(state => state.user);
+    console.log({isLoggedIn, current})
     // console.log(categories)
 
     return (
@@ -49,7 +51,7 @@ const Home = () => {
                             key={el._id}
                             >
                             
-                            <div className='border flex'>
+                            <div className='border flex p-4 gap-4 min-h-[190px]'>
                                 <img src={el?.image} alt="" className=' w-[144px] flex-1 h-[129px] object-cover' />
                                 <div className='flex-1 text-gray-700'>
                                     <h4 className='font-semibold uppercase'>{el.title}</h4>
@@ -58,7 +60,7 @@ const Home = () => {
                                             <span 
                                                 key={item}
                                                 className='flex gap-1 items-center text-gray-500'>
-                                                <MdArrowForwardIos />
+                                                <MdArrowForwardIos size={14}/>
                                                 <li  >{item}</li>
                                             </span>
                                         ))}

@@ -11,6 +11,7 @@
     
     react-slick: để làm cái tick tick next trang: đi kèm theo thằng này npm install slick-carousel
     
+    sweetalert2 : tạo ra model thông báo
     
 
 

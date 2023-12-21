@@ -12,6 +12,10 @@ export { default as ProductCart } from "./ProductCart";
 export { default as CustomSlider } from "./CustomSlider";
 export { default as TopHeader } from "./TopHeader";
 export { default as Footer } from "./Footer";
+export { default as InputField } from "./InputField";
+export { default as Button } from "./Button";
+
+
 
 
 

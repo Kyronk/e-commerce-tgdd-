@@ -29,25 +29,45 @@ const Footer = () => {
             </div>
             
             <div className='h-[407px] w-full bg-gray-800 flex items-center justify-center text-white text-[13px]'>
-                <div className='w-main flex items-center'>
-                    <div className='flex-2'>
+                <div className='w-main flex'>
+                    <div className='flex-2 flex flex-col gap-2'>
                         <h3 className='mb-[20px] text-[15px] font-medium border-l-2 border-red-700 pl-[15px]'>ABOUT US</h3>
                         <span>
-                            <span></span>
-                            <span></span>
+                            <span>Address:</span>
+                            <span className='opacity-70'>474 Ontario St Toronto, ON M4X 1M7 Canada</span>
                         </span>
                         <span>
-                            <span></span>
-                            <span></span>
+                            <span>Phone:</span>
+                            <span className='opacity-70' >(+1234)56789xxx</span>
                         </span>
                         <span>
-                            <span></span>
-                            <span></span>
+                            <span> Mail:</span>
+                            <span className='opacity-70'> tadathemes@gmail.com</span>
                         </span>
                     </div>
-                    <div className='flex-1'>item 2</div>
-                    <div className='flex-1'>item 3</div>
-                    <div className='flex-1'>item 4</div>
+                    
+                    <div className='flex-1 flex flex-col gap-2'>
+                        <h3 className='mb-[20px] text-[15px] font-medium border-l-2 border-red-700 pl-[15px]'>INFORMATION</h3>
+                        <span>Typography</span>
+                        <span>Gallery</span>
+                        <span>Store Location</span>
+                        <span>Today's Deals</span>
+                        <span>Contact</span>
+                    </div>
+                    
+                    <div className='flex-1 flex flex-col'>
+                        <h3 className='mb-[20px] text-[15px] font-medium border-l-2 border-red-700 pl-[15px]'>WHO WE ARE</h3>
+                        <span>Help</span>
+                        <span>Free Shipping</span>
+                        <span>FAQs</span>
+                        <span>Return & Exchange</span>
+                        <span>Testimonials</span>
+                    </div>
+
+                    <div className='flex-1'>
+                        <h3 className='mb-[20px] text-[15px] font-medium border-l-2 border-red-700 pl-[15px]'>#DIGITALWORLDSTORE</h3>
+
+                    </div>
 
 
                 </div>

@@ -14,7 +14,7 @@ export const userSlice = createSlice({
             state.isLoggedIn = action.payload.isLoggedIn;
             state.current = action.payload.userData;
             state.token = action.payload.token;
-        }
+        },
     },
    //extraReducers: (builder) => {
 

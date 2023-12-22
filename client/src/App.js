@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 
 import {Route, Routes} from "react-router-dom";
-import {Login, Home, Public, FAQ, Services, DetailProduct, Products, Blog} from "./pages/public"
+import {Login, Home, Public, FAQ, Services, DetailProduct, Products, Blog, FinalRegister} from "./pages/public"
 
 import path from "./utils/path";
 
@@ -28,6 +28,7 @@ function App() {
                     <Route path={path.PRODUCTS} element={<Products />}/>
 
                 </Route>
+                <Route path={path.FINAL_REGISTER} element={<FinalRegister />}/>
                 <Route path={path.LOGIN} element={<Login />}/>
 
                 

@@ -18,7 +18,6 @@ const userConfig = {
 }
 
 
-
 export const store = configureStore({
     reducer: {
         app: appSlice,

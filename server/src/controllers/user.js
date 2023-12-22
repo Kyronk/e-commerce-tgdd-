@@ -8,33 +8,87 @@ const sendMail = require("../utils/sendMail");
 
 const jwt = require("jsonwebtoken");
 
+const makeToken = require("uniqid");
 
+// khúc này register 1 cái là vào luôn
 
+// const register = asyncHandler(async (req, res) => {
+//     const {email, password, firstname, lastname} = req.body;
+//     if(!email || !password || !firstname || !lastname) 
+//     return res.status(400).json({
+//         success: false,
+//         mess: "Missing input"
+//     });
+
+//     const user = await User.findOne({email});
+//     console.log("check user", user);
+//     if(user) throw new Error("User has existed");
+//     else {
+//         const newUser = await User.create(req.body);
+//         return res.status(200).json({
+//             success: newUser ? true : false,
+//             mes: newUser ? "Register is successfully. please to login now~" : "Something went wrong"
+//         })
+//     }
+//     // const response = await Users.create(req.body);
+//     // const response = await User.create(req.body);
+//     // return res.status(200).json({
+//     //     success: response? true : false,
+//     //     response
+//     // })
+// })
+
+// cái register này sẽ không cho vào luôn 
+// mà sẽ trả về cho email đăng ký 1 url để xác nhận // 
 const register = asyncHandler(async (req, res) => {
     const {email, password, firstname, lastname} = req.body;
-    if(!email || !password || !firstname || !lastname) 
-    return res.status(400).json({
-        success: false,
-        mess: "Missing input"
-    });
-
-    const user = await User.findOne({email});
-    console.log("check user", user);
-    if(user) throw new Error("User has existed");
-    else {
-        const newUser = await User.create(req.body);
+    if(!email || !password || !firstname || !lastname) {
+        return res.status(400).json({
+            success: false,
+            mess: "Missing input"
+        });
+    };
+    const user = await User.findOne({email: email});
+    if(user) throw new Error("User has exited");
+    else{
+        const token = makeToken();
+        res.cookie('dataregister', {...req.body, token}, {httpOnly: true, maxAge: 15 * 60 * 1000});
+        const html = `Xin vui lòng click vào link dưới đây để hoàn tất quá trình đăng ký. Link này sẽ hết hạn trong 15 phút kể từ bây giờ.
+        <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here</a>`
+    
+        await sendMail({email, html, subject: "Hoàng tất đăng ký Digital World!"});
         return res.status(200).json({
-            success: newUser ? true : false,
-            mes: newUser ? "Register is successfully. please to login now~" : "Something went wrong"
+            success: true,
+            mes: "Please check your email to active account"
         })
+    };
+});
+// hàm register để hứng thằng ở trên kích hoạt tài khoảng
+const finalRegister =  asyncHandler(async (req, res) => {
+    const cookie = req.cookies;
+    const {token} = req.params;
+    console.log(token)
+    // if(!cookie || cookie?.dataregister?.token !== token) throw new Error("Register falsed");
+    if(!cookie || cookie?.dataregister?.token !== token) {
+        // res.clearCookie('dataregister');
+        return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
     }
-    // const response = await Users.create(req.body);
-    // const response = await User.create(req.body);
-    // return res.status(200).json({
-    //     success: response? true : false,
-    //     response
+    const newUser = await User.create({
+        email: cookie?.dataregister?.email,
+        password: cookie?.dataregister?.password,
+        mobile: cookie?.dataregister?.mobile,
+        firstname: cookie?.dataregister?.firstname,
+        lastname: cookie?.dataregister?.lastname
+    })
+    res.clearCookie('dataregister');
+    if(newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`);
+    else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
+    // return res.json({
+    //     success: true,
+    //     cookie
     // })
 })
+
 
 
 
@@ -156,7 +210,8 @@ const forgotPassword = asyncHandler (async (req, res) => {
 
     const data = {
         email: email,
-        html
+        html,
+        subject: "Forgot Password!"
     }
     const rs = await sendMail(data);
     // console.log(rs)
@@ -284,6 +339,7 @@ const updateCart = asyncHandler(async (req, res) => {
 
 module.exports = {
     register,
+    finalRegister,
     login,
     getCurrent,
     refreshAccessToken,

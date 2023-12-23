@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 

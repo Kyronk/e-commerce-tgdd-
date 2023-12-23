@@ -3,10 +3,13 @@ import React, { useState, useCallback } from 'react'
 import BG_Login from "../../assets/bg_login.jpg"
 import { InputField, Button } from '../../components'
 // import {Button} from "../../components/"
-import { apiRegister, apiLogin } from '../../apis/user'
+import { apiRegister, apiLogin, apiForgotPassword } from '../../apis/user'
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+
 import { useNavigate, useLocation } from "react-router-dom";
 import path from '../../utils/path';
+
 
 import { register } from '../../store/user/userSlice';
 import { useDispatch } from "react-redux"
@@ -14,8 +17,8 @@ import { useDispatch } from "react-redux"
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const location = useLocation();
-    console.log(location)
+    // const location = useLocation();
+    // console.log(location)
     const [payload, setPayload] = useState({
         email: "",
         password: "",
@@ -24,6 +27,7 @@ const Login = () => {
         mobile: "",
     });
     const [ isRegister, setIsRegister] = useState(false);
+    const [isForgetPassword, setIsForgetPassword] = useState(false)
     const resetPayload = () => {
         setPayload({
             email: "",
@@ -33,6 +37,17 @@ const Login = () => {
             mobile: "",
         })
     }
+
+    const [email, setEmail] = useState("")
+    const handleForgotPassword = async () => {
+        // console.log(email)
+        const response = await apiForgotPassword({email});
+        console.log(response)
+        if(response.success) {
+            toast.success(response.mes);
+        }else toast.info(response.mes);
+    };
+
 
     const handleSubmit = useCallback( async() => {
         // console.log(payload);
@@ -69,6 +84,32 @@ const Login = () => {
 
     return (
         <div className='w-screen h-screen relative'>
+            {isForgetPassword && <div className='absolute animate-slide-right top-0 left-0  bottom-0 right-0 bg-white flex flex-col items-center py-8 z-50'>
+                <div className='flex flex-col gap-4'>
+                    <label htmlFor="email">Enter your email:</label>
+                    <input 
+                        type="text"
+                        id="email"
+                        className='w-[800px] pb-2 border-b outline-none placeholder:text-sm'
+                        placeholder='Exp: email@gmail.com'
+                        onChange={e => setEmail(e.target.value)}
+                        value={email}
+                        />
+                    <div className='flex items-center justify-end w-full gap-2'>
+                        <Button 
+                            name="Submit"
+                            handleOnClick={handleForgotPassword}
+                            style="px-4 py-2 rounded-md text-white bg-blue-500 text-semibold my-2" 
+                        />
+
+                        <Button 
+                            name="Cancel"
+                            // handleOnClick={handleForgotPassword}
+                            handleOnClick={() => setIsForgetPassword(false)}
+                        />
+                    </div>
+                </div>
+            </div> }
             <img 
                 // src="https://img.freepik.com/free-vector/gradient-network-connection-background_23-2148865393.jpg?w=1380&t=st=1703091136~exp=1703091736~hmac=da2bcb4452d510e4ffc517bd3199474d1509c2bc5b464874edc640f0365ba147"
                 src={BG_Login}
@@ -119,7 +160,7 @@ const Login = () => {
                         />
                         
                         <div className='flex items-center justify-between my-2 w-full text-sm'>
-                            {!isRegister && <span className='text-blue-500 hover:underline cursor-pointer'>Forgot your account?</span>}
+                            {!isRegister && <span onClick={() => setIsForgetPassword(true)} className='text-blue-500 hover:underline cursor-pointer'>Forgot your account?</span>}
                             {!isRegister &&  <span 
                                 className='text-blue-500 hover:underline cursor-pointer'
                                 onClick={() => setIsRegister(true)}

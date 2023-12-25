@@ -19,7 +19,7 @@ const Home = () => {
                     <Sidebar/>
                     {/* <span>Deal daily</span> */}
 
-                    {/* <DealDaily /> */}
+                    <DealDaily />
                 </div>
                 <div className="flex flex-col gap-5 pl-5 w-[75%] flex-auto ">
                     <Banner />
@@ -56,9 +56,10 @@ const Home = () => {
                                 <div className='flex-1 text-gray-700'>
                                     <h4 className='font-semibold uppercase'>{el.title}</h4>
                                     <ul className='text-sm'>
-                                        {el?.brand?.map(item => (
+                                        {el?.brand?.map((item, index) => (
                                             <span 
-                                                key={item}
+                                                key={index}
+                                                // key={item}
                                                 className='flex gap-1 items-center text-gray-500'>
                                                 <MdArrowForwardIos size={14}/>
                                                 <li  >{item}</li>

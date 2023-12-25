@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 // import { Header } from '../../components'
 import BG_Login from "../../assets/bg_login.jpg"
 import { InputField, Button } from '../../components'
@@ -9,9 +9,10 @@ import { toast } from "react-toastify";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import path from '../../utils/path';
+import { validate } from '../../utils/helpers';
 
 
-import { register } from '../../store/user/userSlice';
+import { login } from '../../store/user/userSlice';
 import { useDispatch } from "react-redux"
 
 const Login = () => {
@@ -26,6 +27,7 @@ const Login = () => {
         lastname: "",
         mobile: "",
     });
+    const [invalidFields, setInvalidFields] = useState([]);
     const [ isRegister, setIsRegister] = useState(false);
     const [isForgetPassword, setIsForgetPassword] = useState(false)
     const resetPayload = () => {
@@ -48,38 +50,49 @@ const Login = () => {
         }else toast.info(response.mes);
     };
 
+    useEffect(() => {
+        resetPayload()
+    }, [isRegister])
 
+    // Submit login & register
+    // console.log(validate(payload));
     const handleSubmit = useCallback( async() => {
         // console.log(payload);
-        const {firstname, lastname, mobile, ...data} = payload;
+        const { firstname, lastname, mobile, ...data } = payload;
+
+        const invalid = isRegister ? validate(payload, setInvalidFields) : validate(data, setInvalidFields);
+        console.log(invalid)
         // console.log(data)
         // console.log(payload)
-        if(isRegister) {
-            const response = await apiRegister(payload)
-            // console.log(payload)
-            // Swal.fire(response.success? "Congratulation": "Oops!", response.mes, response.success ? "success": "error").then(() => {
-            //     setIsRegister(false);
-            //     resetPayload();
-            // })
-            if(response.success) {
-                Swal.fire("Congratulation", response.mes, "success").then(() => {
-                    setIsRegister(false);
-                    resetPayload()
-                });
-            } else {Swal.fire('Oops!', response.mes, "error")}
-        } else {
-            const response = await apiLogin(data)
-            // console.log(data)
-            if(response.success) {
-                dispatch(register({isLoggedIn: true, token: response.accessToken , userData: response.userData}))
-                resetPayload();
-                navigate(`/${path.HOME}`)
-                // Swal.fire("Congratulation", response.mes, "success").then(() => {
-                //     setIsRegister(false);
-                //     resetPayload()
-                // });
-            } else {Swal.fire('Oops!', response.mes, "error")}
+        if(invalid === 0) {
+        //     if(isRegister) {
+        //     const response = await apiRegister(payload)
+        //     // console.log(payload)
+        //     // Swal.fire(response.success? "Congratulation": "Oops!", response.mes, response.success ? "success": "error").then(() => {
+        //     //     setIsRegister(false);
+        //     //     resetPayload();
+        //     // })
+        //     if(response.success) {
+        //         Swal.fire("Congratulation", response.mes, "success").then(() => {
+        //             setIsRegister(false);
+        //             resetPayload()
+        //         });
+        //     } else {Swal.fire('Oops!', response.mes, "error")}
+        // } else {
+        //     const response = await apiLogin(data)
+        //     // console.log(data)
+        //     if(response.success) {
+        //         dispatch(login({isLoggedIn: true, token: response.accessToken , userData: response.userData}))
+        //         resetPayload();
+        //         navigate(`/${path.HOME}`)
+        //         // Swal.fire("Congratulation", response.mes, "success").then(() => {
+        //         //     setIsRegister(false);
+        //         //     resetPayload()
+        //         // });
+        //     } else {Swal.fire('Oops!', response.mes, "error")}
+        // }
         }
+
     }, [payload, isRegister]);
 
     return (
@@ -110,6 +123,7 @@ const Login = () => {
                     </div>
                 </div>
             </div> }
+
             <img 
                 // src="https://img.freepik.com/free-vector/gradient-network-connection-background_23-2148865393.jpg?w=1380&t=st=1703091136~exp=1703091736~hmac=da2bcb4452d510e4ffc517bd3199474d1509c2bc5b464874edc640f0365ba147"
                 src={BG_Login}
@@ -125,11 +139,15 @@ const Login = () => {
                                 value={payload.firstname}
                                 nameKey={'firstname'}
                                 setValue={setPayload}
+                                invalidFields={invalidFields}
+                                setInvalidFields={setInvalidFields}
                             />
                             <InputField 
                                 value={payload.lastname}
                                 nameKey={'lastname'}
                                 setValue={setPayload}
+                                invalidFields={invalidFields}
+                                setInvalidFields={setInvalidFields}
                             />   
                             
                         </div>}
@@ -138,11 +156,15 @@ const Login = () => {
                                 value={payload.mobile}
                                 nameKey={'mobile'}
                                 setValue={setPayload}
+                                invalidFields={invalidFields}
+                                setInvalidFields={setInvalidFields}
                             />   }
                         <InputField 
                             value={payload.email}
                             nameKey={'email'}
                             setValue={setPayload}
+                            invalidFields={invalidFields}
+                            setInvalidFields={setInvalidFields}
                         />
 
                         <InputField 
@@ -150,6 +172,8 @@ const Login = () => {
                             nameKey={'password'}
                             setValue={setPayload}
                             type={"password"}
+                            invalidFields={invalidFields}
+                            setInvalidFields={setInvalidFields}
                         />
 
 

@@ -39,9 +39,37 @@ const makeToken = require("uniqid");
 // })
 
 // cái register này sẽ không cho vào luôn 
-// mà sẽ trả về cho email đăng ký 1 url để xác nhận // 
+// mà sẽ trả về cho email đăng ký 1 url để xác nhận //  ok vẫn chạy
+// cách này ok nhưng có nhược điểm là nếu gmail trên đt thì sẽ k get đc token do token chỉ lưu trên cookie của 
+// trình duyện đăng ký thôi
+// const register = asyncHandler(async (req, res) => { 
+//     const {email, password, firstname, lastname} = req.body;
+//     if(!email || !password || !firstname || !lastname) {
+//         return res.status(400).json({
+//             success: false,
+//             mess: "Missing input"
+//         });
+//     };
+//     const user = await User.findOne({email: email});
+//     if(user) throw new Error("User has exited");
+//     else{
+//         const token = makeToken();
+//         res.cookie('dataregister', {...req.body, token}, {httpOnly: true, maxAge: 15 * 60 * 1000});
+//         const html = `Xin vui lòng click vào link dưới đây để hoàn tất quá trình đăng ký. Link này sẽ hết hạn trong 15 phút kể từ bây giờ.
+//         <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here</a>`
+    
+//         await sendMail({email, html, subject: "Hoàng tất đăng ký Digital World!"});
+//         return res.status(200).json({
+//             success: true,
+//             mes: "Please check your email to active account"
+//         })
+//     };
+// });
+
+// update register // cái này sẽ k lưu mã xác thực ở cookies mà sẽ lưu ở DB luôn
+// ưu điêm là dùng thiết bị khác (trình duyệt hay đt khác cũng check đc)
 const register = asyncHandler(async (req, res) => {
-    const {email, password, firstname, lastname} = req.body;
+    const {email, password, firstname, lastname, mobile} = req.body;
     if(!email || !password || !firstname || !lastname) {
         return res.status(400).json({
             success: false,
@@ -52,41 +80,89 @@ const register = asyncHandler(async (req, res) => {
     if(user) throw new Error("User has exited");
     else{
         const token = makeToken();
-        res.cookie('dataregister', {...req.body, token}, {httpOnly: true, maxAge: 15 * 60 * 1000});
-        const html = `Xin vui lòng click vào link dưới đây để hoàn tất quá trình đăng ký. Link này sẽ hết hạn trong 15 phút kể từ bây giờ.
-        <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here</a>`
-    
-        await sendMail({email, html, subject: "Hoàng tất đăng ký Digital World!"});
+        const emailedited = btoa(email) + "@" + token;
+        const newUser = await User.create({
+            email: emailedited,
+            password,
+            firstname,
+            lastname,
+            mobile
+        })
+        // res.cookie('dataregister', {...req.body, token}, {httpOnly: true, maxAge: 15 * 60 * 1000});
+        // const html = `Xin vui lòng click vào link dưới đây để hoàn tất quá trình đăng ký. Link này sẽ hết hạn trong 15 phút kể từ bây giờ.
+        // <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here</a>`
+        if(newUser) {
+            const html = `<h2>Register code:</h2> </br> <blockquote>${token}</blockquote>`;
+            await sendMail({email, html, subject: "Confirm register account Digital World!"});
+        }
+
+        setTimeout(async () => {
+            await User.deleteOne({ email: emailedited});
+        }, [20000]);
+
+
+
         return res.status(200).json({
-            success: true,
-            mes: "Please check your email to active account"
+            success: newUser ? true : false,
+            mes: newUser ? "Please check your email to active account" : "Some went wrong, please try later"
         })
     };
 });
+
+
+
 // hàm register để hứng thằng ở trên kích hoạt tài khoảng
+// const finalRegister =  asyncHandler(async (req, res) => {
+//     const cookie = req.cookies;
+//     const {token} = req.params;
+//     console.log(token)
+//     // if(!cookie || cookie?.dataregister?.token !== token) throw new Error("Register falsed");
+//     if(!cookie || cookie?.dataregister?.token !== token) {
+//         // res.clearCookie('dataregister');
+//         return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
+//     }
+//     const newUser = await User.create({
+//         email: cookie?.dataregister?.email,
+//         password: cookie?.dataregister?.password,
+//         mobile: cookie?.dataregister?.mobile,
+//         firstname: cookie?.dataregister?.firstname,
+//         lastname: cookie?.dataregister?.lastname
+//     })
+//     res.clearCookie('dataregister');
+//     if(newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`);
+//     else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
+// })
+
+// giống ở trên làm lại hàm hứng nhưng k dùng cookie nũa mà dùng mã 
 const finalRegister =  asyncHandler(async (req, res) => {
-    const cookie = req.cookies;
+    // const cookie = req.cookies;
     const {token} = req.params;
-    console.log(token)
-    // if(!cookie || cookie?.dataregister?.token !== token) throw new Error("Register falsed");
-    if(!cookie || cookie?.dataregister?.token !== token) {
-        // res.clearCookie('dataregister');
-        return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
+    // console.log(token)
+    // const tokenInMail = await User.find();
+    const notActivedEmail = await User.findOne({email: new RegExp(`${token}$`)})
+    if(notActivedEmail) {
+        notActivedEmail.email = atob(notActivedEmail?.email?.split("@")[0]);
+        notActivedEmail.save()
     }
-    const newUser = await User.create({
-        email: cookie?.dataregister?.email,
-        password: cookie?.dataregister?.password,
-        mobile: cookie?.dataregister?.mobile,
-        firstname: cookie?.dataregister?.firstname,
-        lastname: cookie?.dataregister?.lastname
+    return res.status(200).json({
+        success: notActivedEmail ? true : false,
+        mes: notActivedEmail ? "Register is Successfully. Please go login." : "Some went wrong, please try later"
     })
-    res.clearCookie('dataregister');
-    if(newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`);
-    else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
-    // return res.json({
-    //     success: true,
-    //     cookie
+    // if(!cookie || cookie?.dataregister?.token !== token) throw new Error("Register falsed");
+    // if(!cookie || cookie?.dataregister?.token !== token) {
+    //     // res.clearCookie('dataregister');
+    //     return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
+    // }
+    // const newUser = await User.create({
+    //     email: cookie?.dataregister?.email,
+    //     password: cookie?.dataregister?.password,
+    //     mobile: cookie?.dataregister?.mobile,
+    //     firstname: cookie?.dataregister?.firstname,
+    //     lastname: cookie?.dataregister?.lastname
     // })
+    // res.clearCookie('dataregister');
+    // if(newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`);
+    // else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`);
 })
 
 

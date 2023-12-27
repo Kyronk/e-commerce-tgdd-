@@ -2,19 +2,19 @@ import React from 'react'
 import {Banner, BestSeller, Sidebar, DealDaily, FeatureProducts, CustomSlider} from "../../components";
 import { useSelector } from "react-redux";
 import icons from "../../utils/icons";
-
+import ReactImageMagnify from 'react-image-magnify';
 
 const {MdArrowForwardIos} = icons;
 const Home = () => {
     const { newProductList } = useSelector(state => state.productList);
     const { categories } = useSelector(state => state.app);
     const { isLoggedIn, current } = useSelector(state => state.user);
-    console.log({isLoggedIn, current})
+    // console.log({isLoggedIn, current})
     // console.log(categories)
 
     return (
         <>
-            <div className='w-main flex'>
+            <div className='w-main flex mt-6'>
                 <div className='flex flex-col gap-5 w-[25%] flex-auto '>
                     <Sidebar/>
                     {/* <span>Deal daily</span> */}
@@ -29,12 +29,15 @@ const Home = () => {
 
             </div>
 
-            <div className='my-8'>
+            <div className='my-8 w-main'>
                 <FeatureProducts />
             </div>
 
-            <div className='my-8'>
-                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700'>NEW ARRIVALS</h3>
+            <div className='my-8 w-main'>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700 w-full'>
+                    NEW ARRIVALS
+                </h3>
+                
                 <div className='mt-4 mx-[-10px]'>
                     <CustomSlider 
                         productList={newProductList}
@@ -42,7 +45,7 @@ const Home = () => {
                 </div>
             </div>
         
-            <div className='my-8 w-full'>
+            <div className='my-8 w-main'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700'>HOT COLLECTIONS</h3>
                 <div className='flex flex-wrap gap-4 mt-4'>
                     {categories?.filter(el => el.brand.length > 0)?.map(el => (
@@ -74,7 +77,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className='my-8 w-full'>
+            <div className='my-8 w-main'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-red-700'>BLOG POSTS</h3>
             </div>
 

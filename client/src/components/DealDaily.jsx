@@ -32,7 +32,7 @@ const DealDaily = () => {
             const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
             // console.log(today)
             const second = new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000;
-            console.log(second)
+            // console.log(second)
             const number = secondsToHms(second);
             setHours(number.h);
             setMinutes(number.m);
@@ -54,7 +54,7 @@ const DealDaily = () => {
     }, [expireTime]);
     useEffect(() => {
         idInterval = setInterval(() => {
-            console.log("interval");
+            // console.log("interval");
             if (seconds > 0) setSeconds(prev => prev - 1)
             else {
                 if( minutes > 0) {

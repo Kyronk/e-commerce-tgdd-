@@ -3,6 +3,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaShoppingBag, FaEye,  FaHeart } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { IoIosStar, IoIosStarOutline, IoMdMenu  } from "react-icons/io";
+import { IoLogOut } from "react-icons/io5";
 
 const icons = {
     MdLocalPhone,
@@ -15,6 +16,7 @@ const icons = {
     IoMdMenu,
     FaHeart,
     MdArrowForwardIos,
+    IoLogOut,
 
 };
 

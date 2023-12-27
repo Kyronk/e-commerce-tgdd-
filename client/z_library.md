@@ -13,7 +13,10 @@
     
     sweetalert2 : tạo ra model thông báo
     
+    use-react-router-breadcrumbs : tạo ra link phân loại
 
+    react-image-magnify: hover zoom ảnh
+    
 
 
 # tips create project với redux toolkit

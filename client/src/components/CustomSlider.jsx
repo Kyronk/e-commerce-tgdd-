@@ -16,7 +16,7 @@ const CustomSlider = ({ productList, activeTab }) => {
     // const [ productList, setProductList] = useState();
     return (
         <>
-            {productList && <Slider {...settings}>
+            {productList && <Slider className='customer-slider' {...settings}>
                 {productList?.map((el, index) => (
                     <Product
                         key={el._id}

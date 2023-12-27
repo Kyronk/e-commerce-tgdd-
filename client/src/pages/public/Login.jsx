@@ -235,6 +235,8 @@ const Login = () => {
                                 onClick={() => setIsRegister(false)}
                                 >Go Login</span>}
                         </div>
+
+                        <Link to={`/${path.HOME}`} className='text-blue-500 text-sm hover:underline cursor-pointer'>Go home</Link>
                     </div>
                 </div>
         </div>

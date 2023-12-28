@@ -12,7 +12,7 @@ const settings = {
     slidesToScroll: 1
 };
 
-const CustomSlider = ({ productList, activeTab }) => {
+const CustomSlider = ({ productList, activeTab, normal }) => {
     // const [ productList, setProductList] = useState();
     return (
         <>
@@ -24,6 +24,7 @@ const CustomSlider = ({ productList, activeTab }) => {
                         pdi={el._id}
                         ProductData={el}
                         isNew={activeTab === 1 ? false : true}
+                        normal={normal}
                     />
                 ))}
             </Slider>

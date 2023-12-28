@@ -13,7 +13,7 @@ import path from '../utils/path';
 
 const { FaEye,IoMdMenu, FaHeart } = icons;
 
-const Product = ({ProductData, isNew}) => {
+const Product = ({ProductData, isNew, normal}) => {
     // console.log(ProductData)
     const [ isShowOption, setIsShowOption] = useState(false);
 
@@ -46,11 +46,11 @@ const Product = ({ProductData, isNew}) => {
                         alt="" 
                         className="w-[274px] h-[274px] object-cover" />
 
-                    <img 
+                    {!normal && <img 
                         src={isNew ? labelBlue : label} 
                         alt=""
                         className='absolute top-[-40px] left-[-40px] w-[100px] h-[140px] object-cover'
-                        />  
+                        />  }
                     <span className='font-bold top-[15px] left-[-15px] text-white absolute rotate-[-30deg]'>
                         {isNew ? "New" : "Hot"}
                     </span>

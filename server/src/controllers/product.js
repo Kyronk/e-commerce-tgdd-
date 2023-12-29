@@ -38,17 +38,24 @@ const getListProduct = asyncHandle(async (req, res) => {
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, macthedEl => `$${macthedEl}`);
     // console.log(queryString)
     const formatedQueries = JSON.parse(queryString);
+    let colorQueryObject = {};
     // console.log(formatedQueries);
 
 
     // sorting
-
-    
     
     // filtering
     if(queries?.title) formatedQueries.title = {$regex: queries.title, $options: 'i'};
     if(queries?.category) formatedQueries.category = { $regex: queries.category, $options: "i"};
-    let queryCommand = Product.find(formatedQueries);
+    // if(queries?.color) formatedQueries.color = { $regex: queries.color, $options: "i"};
+    if(queries?.color) {
+        delete formatedQueries.color;
+        const colorArr = queries.color?.split(',');
+        const colorQuery = colorArr.map(el => ({color: {$regex: el, $options: "i"}}));
+        colorQueryObject = {$or: colorQuery};
+    }
+    const q = {...colorQueryObject, ...formatedQueries}
+    let queryCommand = Product.find(q);
     
     // acb, efg => [abc, efg]  => abc dfg
     if(req.query.sort) {
@@ -80,7 +87,7 @@ const getListProduct = asyncHandle(async (req, res) => {
     // số lượng sản phẩm trả về thoả điều kiện
     queryCommand.exec(async (err, response) => {
         if(err) throw new Error(err.message);
-        const counts = await Product.find(formatedQueries).countDocuments();
+        const counts = await Product.find(q).countDocuments();
         // console.log(counts);
         // console.log(response);
     

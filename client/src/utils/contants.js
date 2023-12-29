@@ -128,3 +128,69 @@ export const productInfoTabs = [
     },
 ]
 
+export const colors = [ "red", "blue", "green", "Yellow", "Black", "White", "Pink" ];
+
+export const sorts = [
+    {
+        id: 1,
+        value: "-sold",
+        text: "Best selling"
+    },
+    {
+        id: 2,
+        value: "-title",
+        text: "Alphabetically, A-Z"
+    },
+    {
+        id: 3,
+        value: "title",
+        text: "Alphabetically, Z-A"
+    },
+    {
+        id: 4,
+        value: "-price",
+        text: "Price, hight to low"
+    },
+    {
+        id: 5,
+        value: "price",
+        text: "Price, low to hight"
+    },
+    {
+        id: 6,
+        value: "-createAt",
+        text: "Date, new to old"
+    },
+    {
+        id: 7,
+        value: "createAt",
+        text: "Date, old to new"
+    },
+]
+
+// export const colors1 = [
+//     {
+//         id: 1,
+//         color: "red"
+//     },
+//     {
+//         id: 2,
+//         color: "blue"
+//     },
+//     {
+//         id: 3,
+//         color: "black"
+//     },
+//     {
+//         id: 4,
+//         color: "white"
+//     }, 
+//     {
+//         id: 5,
+//         color: "yellow"
+//     },
+//     {
+//         id: 6,
+//         color: "pink"
+//     }
+// ]

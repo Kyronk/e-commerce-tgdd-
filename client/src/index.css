@@ -18,7 +18,7 @@ code {
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .customer-slider button.slick-next {
-    right:  80px;
+    right: 80px;
     z-index: 10;
 }
 
@@ -54,7 +54,7 @@ code {
 
 
 .image-slider button.slick-next {
-    right:  0px;
+    right: 0px;
     z-index: 10;
     top: 55px
 }
@@ -63,7 +63,6 @@ code {
     left: 0px;
     z-index: 10;
     top: 55px
-
 }
 
 .image-slider button.slick-next::before {
@@ -92,4 +91,23 @@ code {
 
 input {
     appearance: none;
+}
+
+/* .my-masonry-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: -30px;
+    width: auto;
+}
+
+.my-masonry-grid_column {
+    padding-left: 30px;
+    background-clip: padding-box;
+} */
+
+
+.my-masonry-grid_column>div {
+
+    margin-bottom: 20px;
 }

@@ -18,7 +18,7 @@ const Product = ({ProductData, isNew, normal}) => {
     const [ isShowOption, setIsShowOption] = useState(false);
 
     return (
-        <div className='w-full text-base px-[10px]'>
+        <div className='w-full  text-base px-[10px]'>
             <Link 
                 to={`${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`}
                 className='w-full border p-[15px] flex flex-col items-center'

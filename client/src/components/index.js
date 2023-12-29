@@ -18,7 +18,8 @@ export { default as Breadcrumb } from "./Breadcrumb";
 export { default as SelectQuantity } from "./SelectQuantity";
 export { default as ProductExtraInfoItem } from "./ProductExtraInfoItem";
 export { default as ProductInformation } from "./ProductInformation";
-
+export { default as SelectItem } from "./SelectItem";
+export { default as InputSelect } from "./InputSelect";
 
 
 

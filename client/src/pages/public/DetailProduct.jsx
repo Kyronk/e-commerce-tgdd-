@@ -22,7 +22,10 @@ const settings = {
 const DetailProduct = () => {
     const { pid, title, category } = useParams();
     const [product, setProduct] = useState(null);
+    
+
     const [quantity, setQuantity] = useState(1);
+    
     const [relatedProductList, setRelatedProductList] = useState([])
     // console.log(pid, title, category);
 

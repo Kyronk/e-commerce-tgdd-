@@ -16,8 +16,18 @@
     use-react-router-breadcrumbs : tạo ra link phân loại
 
     react-image-magnify: hover zoom ảnh
+
+    react-masonry-css : làm lưới list sản phẩm
+    
+    @tailwindcss/forms : bổ sung thêm cho tailwind
+
     
 
+# lỗi out không cài được thư viện
+    - Do thư viện không còn được hỗ trợ
+    - Do phiên bản react quá cao 18 19 and after ...
+    & how to fix
+    npm i <name package> --legacy-peer-deps 
 
 # tips create project với redux toolkit
     npx create-react-app my-app --template redux

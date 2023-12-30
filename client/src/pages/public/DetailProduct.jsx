@@ -22,7 +22,7 @@ const settings = {
 const DetailProduct = () => {
     const { pid, title, category } = useParams();
     const [product, setProduct] = useState(null);
-    
+    const [ currentImage, setCurrentImage] = useState("")
 
     const [quantity, setQuantity] = useState(1);
     
@@ -32,12 +32,15 @@ const DetailProduct = () => {
     const fetchProductData = async () => {
         const response = await apiGetProductItem(pid);
         // console.log(response)
-        if(response.success) setProduct(response.productData);
+        if(response.success) {
+            setProduct(response.productData);
+            setCurrentImage(response.productData?.thumb)
+        }
     };
 
     const fetchProductList = async () => {
         const response = await apiGetProducts({category});
-        console.log(response.productList)
+        // console.log(response.productList)
         if(response.success) setRelatedProductList(response.productList)
     };
 
@@ -62,6 +65,12 @@ const DetailProduct = () => {
         if(flag === "plus") setQuantity(prev => +prev + 1);
     }, []);
 
+    const handleClickImage = (e,el) => {
+        e.stopPropagation();
+        setCurrentImage(el)
+    };
+    // console.log(product?.totalRatings)
+
     return (
         <div className='w-full'>
             <div className='h-[81px] flex justify-center items-start bg-gray-100'>
@@ -74,15 +83,15 @@ const DetailProduct = () => {
 
             <div className='w-main m-auto mt-4 flex'>
                 <div className='flex flex-col gap-4 w-2/5'>
-                    <div className='h-[458px] w-[458px]'>
+                    <div className='h-[458px] w-[458px] border overflow-hidden'>
                         <ReactImageMagnify {...{
                             smallImage: {
                                 alt: 'Wristwatch by Ted Baker London',
                                 isFluidWidth: true,
-                                src: product?.thumb
+                                src: currentImage
                             },
                             largeImage: {
-                                src: product?.thumb,
+                                src: currentImage,
                                 width: 1800,
                                 height: 1500
                             }
@@ -93,7 +102,7 @@ const DetailProduct = () => {
                         <Slider className='image-slider' {...settings}>
                             {product?.images?.map(el => (
                                 <div className='flex w-full gap-2' key={el}>
-                                    <img  src={el} alt="sub-product" className='h-[143px] w-[143px] border object-cover'  />
+                                    <img onClick={(e) => handleClickImage(e, el)} src={el} alt="sub-product" className='h-[143px] w-[143px] cursor-pointer border object-cover'  />
                                 </div>
                             ))}
                         </Slider>
@@ -103,11 +112,11 @@ const DetailProduct = () => {
                 <div className="w-2/5 flex pr-[24px] flex-col gap-4">
                     <div className='flex items-center justify-between'>
                         <h2 className='text-[30px] font-semibold'>{`${formatMoney(formatPrice(product?.price))} VNĐ`}</h2>
-                        <span className='text-sm text-main'>{`Kho: ${product?.quantity}`}</span>
+                        <span className='text-sm text-main'>{`In stock: ${product?.quantity}`}</span>
                     </div>
                     <div className='flex items-center gap-1'>
                         {renderStarFromNumber(product?.totalRatings)?.map((el, index) => (<span key={index}>{el}</span>))}
-                        <span className='text-sm text-main italic'> {`(Đã bán: ${product?.sold})`}</span>
+                        <span className='text-sm text-main italic'> {`(Sold: ${product?.sold} prices) `}</span>
                     </div>
                     <ul className='list-square text0sm text-gray-500 pl-4'>
                         {product?.description?.map(el => (<li key={el} className='leading-6' >{el}</li>))}
@@ -141,7 +150,10 @@ const DetailProduct = () => {
             </div>
 
             <div className='w-main m-auto mt-8'>
-                <ProductInformation />
+                <ProductInformation 
+                    totalRatings={product?.totalRatings}
+                    totalCount={18}
+                    />
             </div>
 
             <div className='w-main m-auto mt-8'>

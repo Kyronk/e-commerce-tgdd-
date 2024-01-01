@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { apiGetProductItem, apiGetProducts  } from '../../apis';
 import { Breadcrumb, Button, SelectQuantity, ProductExtraInfoItem, ProductInformation, CustomSlider } from "../../components";
 
+// import { apiRatings } from '../../apis';
 import Slider from "react-slick";
 import ReactImageMagnify from 'react-image-magnify';
 
@@ -48,7 +49,8 @@ const DetailProduct = () => {
         if(pid) {
             fetchProductData();
             fetchProductList();
-            }
+            };
+        window.scrollTo(0,0);
     }, [pid])
 
     const handleQuantity = useCallback((number) => {
@@ -153,6 +155,8 @@ const DetailProduct = () => {
                 <ProductInformation 
                     totalRatings={product?.totalRatings}
                     totalCount={18}
+                    nameProduct={product?.title}
+                    pid={product?._id}
                     />
             </div>
 

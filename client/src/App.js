@@ -8,17 +8,23 @@ import { Login, Home, Public, FAQ, Services, DetailProduct, Products, Blog, Fina
 import path from "./utils/path";
 
 import { getCategories } from "./store/app/asyncAction";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Modal } from './components';
 
 function App() {
     const dispatch = useDispatch();
+    const { isShowModal, modalChildren } = useSelector(state => state.app);
+    // console.log(isShowModal, modalChildren);
+
     useEffect(() => {
         dispatch(getCategories())
     }, [])
 
     return (
-        <div className="min-h-screen font-main">
+        // <div className="min-h-screen font-main">
+        <div className="font-main relative">
+            {isShowModal && <Modal>{modalChildren}</Modal>}
+
             <Routes>
                 <Route path={path.PUBLIC} element={<Public />}>
                     <Route path={path.HOME} element={<Home />} />

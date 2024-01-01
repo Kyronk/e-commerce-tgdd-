@@ -7,7 +7,7 @@ import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from '../.
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import path from '../../utils/path';
 import { validate } from '../../utils/helpers';
 
@@ -150,16 +150,20 @@ const Login = () => {
                         />
                     <div className='flex items-center justify-end w-full gap-2'>
                         <Button 
-                            name="Submit"
+                            // name="Submit"
                             handleOnClick={handleForgotPassword}
                             style="px-4 py-2 rounded-md text-white bg-blue-500 text-semibold my-2" 
-                        />
+                        >
+                            Submit
+                        </Button>
 
                         <Button 
-                            name="Cancel"
+                            // name="Cancel"
                             // handleOnClick={handleForgotPassword}
                             handleOnClick={() => setIsForgetPassword(false)}
-                        />
+                        >
+                            Cancel
+                        </Button>
                     </div>
                 </div>
             </div> }
@@ -218,10 +222,12 @@ const Login = () => {
 
 
                         <Button 
-                            name={isRegister ? "Register": "Login"}
+                            // name={isRegister ? "Register": "Login"}
                             handleOnClick={handleSubmit}
                             fw
-                        />
+                        >
+                            {isRegister ? "Register": "Login"}
+                        </Button>
                         
                         <div className='flex items-center justify-between my-2 w-full text-sm'>
                             {!isRegister && <span onClick={() => setIsForgetPassword(true)} className='text-blue-500 hover:underline cursor-pointer'>Forgot your account?</span>}

@@ -14,5 +14,6 @@ export const apiGetProductItem = (pid) => axios({
 export const apiRatings = (data) => axios({
     url: "/product/ratings" ,
     method: "put",
+    data
 });
 

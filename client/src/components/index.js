@@ -24,7 +24,7 @@ export { default as Votebar } from "./Votebar";
 export { default as Rating } from "./Rating";
 export { default as VoteOption } from "./VoteOption";
 export { default as Modal } from "./Modal";
-
+export { default as Comment } from "./Comment";
 
 
 

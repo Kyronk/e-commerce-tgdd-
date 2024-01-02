@@ -9,7 +9,8 @@ const Votebar = ({number, ratingCount, ratingTotal}) => {
 
     useEffect(() => {
         // console.log(Math.round(ratingCount * 100 / ratingTotal));
-        percentRef.current.style.cssText = `right: ${100 - Math.round(ratingCount * 100 / ratingTotal)}%`
+        const percent = Math.round(ratingCount * 100 / ratingTotal) || 0 ;
+        percentRef.current.style.cssText = `right: ${100 - percent}%`
     }, [ratingCount, ratingTotal]);
     return (
         <div className='flex items-center gap-2 text-sm text-gray-500'>

@@ -15,7 +15,13 @@ const creteProduct = asyncHandle(async (req, res) => {
 
 const getOneProduct = asyncHandle( async (req, res) => {
     const {pid} = req.params;
-    const product = await Product.findById(pid);
+    const product = await Product.findById(pid).populate({
+        path: "ratings",
+        populate: {
+            path: "postedBy", 
+            select: "firstname lastname avatar"
+        }
+    });
 
     return res.status(200).json({
         success: product ? true : false,
@@ -136,7 +142,7 @@ const deleteProduct = asyncHandle(async (req, res) => {
 // nếu người dùng đánh giá rồi mà đánh giá thêm vào sản phảm đó thì sẽ update đánh giá cũ
 const ratings = asyncHandle(async (req, res) => {
     const {_id} = req.user; // cái này là id lúc đăng nhập hash lại cái token nó gắn vào id = req.user chứ k phải tự sinh ra đâu
-    const { star, comment, pid } = req.body; // mấy cái này tự truyền lên
+    const { star, comment, pid, updateAt } = req.body; // mấy cái này tự truyền lên
     if(!star || !pid) throw new Error("Missing inputs");
     const ratingProduct = await Product.findById(pid);
     const alreadyRating = ratingProduct?.ratings?.find(el => el.postedBy.toString() === _id);
@@ -147,12 +153,12 @@ const ratings = asyncHandle(async (req, res) => {
         await Product.updateOne({
             ratings: { $elemMatch: alreadyRating}
         }, {
-            $set: {"ratings.$.star": star, "ratings.$.comment": comment}
+            $set: {"ratings.$.star": star, "ratings.$.comment": comment , "ratings.$.updatedAt": updateAt } 
         }, {new: true})
     }else {
         // add star & comment
         await Product.findByIdAndUpdate(pid, {
-            $push: {ratings: {star, comment, postedBy: _id}}
+            $push: {ratings: {star, comment, postedBy: _id, updateAt}}
         }, {new: true})
     }
     

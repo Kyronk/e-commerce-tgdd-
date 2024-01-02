@@ -20,6 +20,7 @@ export const renderStarFromNumber = (number, size) => {
     // 3 => [1,1,1,0,0]
     // 2 => [1,1,0,0,0]
     const stars = []
+    number = Math.round(number);
     for(let i = 0; i < +number; i++) stars.push(<IoIosStar key={i} color="orange" size={size || 16} />);
     for (let i = 5; i > +number; i--) stars.push(<IoIosStarOutline key={i} color="orange" size={size || 16} />);
 

@@ -21,6 +21,8 @@
     
     @tailwindcss/forms : bổ sung thêm cho tailwind
 
+    moment: ???
+
     
 
 # lỗi out không cài được thư viện

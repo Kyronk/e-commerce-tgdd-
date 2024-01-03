@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useSearchParams, useNavigate, createSearchParams } from "react-router-dom";
-import { Breadcrumb, Product, SelectItem, InputSelect } from '../../components';
+import { Breadcrumb, Product, SelectItem, InputSelect, Pagination } from '../../components';
 import { apiGetProducts } from '../../apis';
 import Masonry from 'react-masonry-css'
 import { sorts } from '../../utils/contants';
@@ -22,7 +22,8 @@ const Products = () => {
 
     const fetchProductsByCategory = async (queries) => {
         const response = await apiGetProducts(queries);
-        if(response.success) setProducts(response.productList);
+        // if(response.success) setProducts(response.productList);
+        if (response.success) setProducts(response);
     };
     
     
@@ -66,12 +67,14 @@ const Products = () => {
 
     useEffect(() => {
         // console.log("check select", sort)
-        navigate({
-            pathname: `/${category}`,
-            search: createSearchParams({
-                sort
-            }).toString()
-        })
+        if (sort) {
+            navigate({
+                pathname: `/${category}`,
+                search: createSearchParams({
+                    sort
+                }).toString()
+            })
+        }
     }, [sort]);
 
     return (
@@ -114,7 +117,7 @@ const Products = () => {
                 breakpointCols={breakpointColumnsObj}
                 className="my-masonry-grid flex mx-[-10px]"
                 columnClassName="my-masonry-grid_column mb-[-20px]">
-                { products?.map((el, index) => (
+                { products?.productList?.map((el, index) => (
                     <Product
                         // key={index}
                         key={el._id}
@@ -125,8 +128,14 @@ const Products = () => {
                 ))
                 }
                 </Masonry>
-
             </div>
+
+            <div className=' mt-8 w-main m-auto my-4 flex justify-end'>
+                <Pagination 
+                    totalCount={products.counts}
+                />
+            </div>
+
 
             <div className='w-full h-[500px]'></div>
         </div>

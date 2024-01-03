@@ -55,7 +55,8 @@ const SelectItem = ({ name, activeClick, changeActiveFilter, type = "checkbox" }
     }, [type]);
     
     useEffect(() => {
-        if (+price.from > +price.to) alert("From price greater than To price")
+        // if (+price.from > +price.to) alert("From price greater than To price")
+        if(+price.from && +price.to && +price.from > +price.to) alert("From price cannot greater than to price");
     }, [price])
 
     const deboucePriceFrom = useDebounce(price.from, 500);

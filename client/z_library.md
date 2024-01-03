@@ -30,6 +30,7 @@
     - Do phiên bản react quá cao 18 19 and after ...
     & how to fix
     npm i <name package> --legacy-peer-deps 
+    or npm i <name > --force
 
 # tips create project với redux toolkit
     npx create-react-app my-app --template redux

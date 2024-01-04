@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useSearchParams, useNavigate, createSearchParams } from "react-router-dom";
-import { Breadcrumb, Product, SelectItem, InputSelect, Pagination } from '../../components';
+import { Breadcrumb, Product, SearchItem, InputSelect, Pagination } from '../../components';
 import { apiGetProducts } from '../../apis';
 import Masonry from 'react-masonry-css'
 import { sorts } from '../../utils/contants';
@@ -33,6 +33,7 @@ const Products = () => {
         const queries = {};
         let priceQuery = {};
         for(let i of params) queries[i[0]] = i[1];
+
         if(queries.to && queries.from) {
             priceQuery = {
                 $and: [
@@ -41,15 +42,17 @@ const Products = () => {
                 ]
             }
             delete queries.price;
+        } else {
+            if (queries.from) queries.price = { gte: queries.from }
+            if (queries.to ) queries.price = {lte: queries.to}
         }
-        if (queries.from) queries.price = { gte: queries.from }
-        if (queries.to ) queries.price = {lte: queries.to}
         delete queries.to
         delete queries.from
         const q = { ...priceQuery, ...queries};
         // console.log(q)
 
         fetchProductsByCategory(q);
+        window.scrollTo(0,0);
         // if(Object.keys(queries).length === 0) { 
         //     fetchProductsByCategory()
         // }else {fetchProductsByCategory(queries)}
@@ -90,13 +93,13 @@ const Products = () => {
                 <div className='w-4/5 flex-auto flex flex-col gap-3 '>
                     <span className='font-semibold text-sm'>Filter by:</span>
                     <div className='flex items-center gap-4'>
-                        <SelectItem 
+                        <SearchItem 
                             name="Price"
                             activeClick={activeClick}
                             changeActiveFilter={changeActiveFilter}
                             type='input'
                         />
-                        <SelectItem
+                        <SearchItem
                             name="Color" 
                             activeClick={activeClick}
                             changeActiveFilter={changeActiveFilter}
@@ -132,7 +135,7 @@ const Products = () => {
 
             <div className=' mt-8 w-main m-auto my-4 flex justify-end'>
                 <Pagination 
-                    totalCount={products.counts}
+                    totalCount={products?.counts}
                 />
             </div>
 

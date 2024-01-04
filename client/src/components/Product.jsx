@@ -9,7 +9,7 @@ import { SelectOption } from "./";
 import icons from '../utils/icons';
 
 import { Link } from 'react-router-dom';
-import path from '../utils/path';
+// import path from '../utils/path';
 
 const { FaEye,IoMdMenu, FaHeart } = icons;
 

@@ -3,7 +3,32 @@ import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { Route, Routes } from "react-router-dom";
-import { Login, Home, Public, FAQ, Services, DetailProduct, Products, Blog, FinalRegister, ResetPassword } from "./pages/public"
+import { 
+    Login, 
+    Home, 
+    Public, 
+    FAQ, 
+    Services, 
+    DetailProduct, 
+    Products, 
+    Blog,
+    FinalRegister, 
+    ResetPassword
+} from "./pages/public";
+
+import {
+    AdminLayout,
+    CreateProduct,
+    Dashboard,
+    ManageOrder,
+    ManageProducts,
+    ManageUser
+} from "./pages/admin";
+
+import {
+    MemberLayout,
+    Personal,
+} from "./pages/member"
 
 import path from "./utils/path";
 
@@ -36,11 +61,29 @@ function App() {
 
                     <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
                 </Route>
+                {/* admin */}
+                <Route path={path.ADMIN} element={<AdminLayout />}>
+                    <Route path={path.DASHBOARD}element={<Dashboard />} />
+                    <Route path={path.MANAGE_ODER}element={<ManageOrder />} />
+                    <Route path={path.MANAGE_PRODUCTS}element={<ManageProducts />} />
+                    <Route path={path.MANAGE_USER}element={<ManageUser />} />
+                    <Route path={path.CREATE_PRODUCTS}element={<CreateProduct />} />
+                    
+                </Route>
+                
+                {/* user */}
+                <Route path={path.MEMBER} element={<MemberLayout />}>
+                    <Route path={path.PERSONAL}element={<Personal />} />
+                </Route>
+
+
                 <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
                 <Route path={path.LOGIN} element={<Login />} />
+                <Route path={path.ALL} element={<Home />} />
 
 
             </Routes>
+
 
 
             <ToastContainer

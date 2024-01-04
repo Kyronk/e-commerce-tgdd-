@@ -9,6 +9,7 @@ export const userSlice = createSlice({
         current: null,
         token: null,
         isLoading: false,
+        mes: "",
     },
     reducers: {
         login: (state, action) => {
@@ -21,6 +22,9 @@ export const userSlice = createSlice({
             // state.current = action.payload.userData;
             state.token = null;
         },
+        clearMessage: (state, action) => {
+            state.mes = ""
+        }
     },
 
     extraReducers: (builder) => {
@@ -34,6 +38,7 @@ export const userSlice = createSlice({
             // tắt trạng thái loading, lưu dũ liệu vào store
             state.isLoading = false;
             state.current = action.payload;
+            state.isLoggedIn = true;
         })
 
         //khi thực hiện thất bại
@@ -41,10 +46,15 @@ export const userSlice = createSlice({
             //
             state.isLoading = false;
             state.current = action.payload.message;
+            state.isLoggedIn = false;
+            state.token = null;
+            // state.mes = "Phiên đăng nhập hết hạn mời đăng nhập lại";
+            state.mes = "Login session has expired. Please login again!";
+
         })
     }
 })
 
-export const { login, logout } = userSlice.actions
+export const { login, logout, clearMessage } = userSlice.actions
 
 export default userSlice.reducer

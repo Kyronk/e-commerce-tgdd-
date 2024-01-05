@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useState } from 'react'
-import { colors } from "../utils/contants";
-import icons from "../utils/icons";
+import { colors } from "../../utils/contants";
+import icons from "../../utils/icons";
 
 import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { apiGetProducts } from '../apis';
+import { apiGetProducts } from '../../apis';
 
-import useDebounce from "../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 
 const { FaChevronDown } = icons;
 

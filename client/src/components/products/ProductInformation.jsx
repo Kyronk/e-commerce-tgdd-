@@ -1,16 +1,16 @@
 import React, { memo, useCallback, useState } from 'react'
-import { productInfoTabs } from '../utils/contants'
-import { apiRatings } from '../apis';
+import { productInfoTabs } from '../../utils/contants'
+import { apiRatings } from '../../apis';
 
-import { renderStarFromNumber } from '../utils/helpers';
+import { renderStarFromNumber } from '../../utils/helpers';
 
-import { Votebar, Button, VoteOption, Comment } from "../components"
+import { Votebar, Button, VoteOption, Comment } from ".."
 import Swal from "sweetalert2";
-import path from '../utils/path';
+import path from '../../utils/path';
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux"
-import { showModal } from '../store/app/appSlice';
+import { showModal } from '../../store/app/appSlice';
 // const activedStyled = "";
 // const notActivedStyles = "";
 
@@ -154,4 +154,4 @@ const ProductInformation = ({ totalRatings, ratings, nameProduct, pid, rerender 
     )
 }
 
-export default ProductInformation
+export default memo(ProductInformation);

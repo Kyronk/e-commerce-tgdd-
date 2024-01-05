@@ -139,7 +139,7 @@ const finalRegister =  asyncHandler(async (req, res) => {
     const {token} = req.params;
     // console.log(token)
     // const tokenInMail = await User.find();
-    const notActivedEmail = await User.findOne({email: new RegExp(`${token}$`)})
+    const notActivedEmail = await User.findOne({email: new RegExp(`${token}`)})
     if(notActivedEmail) {
         notActivedEmail.email = atob(notActivedEmail?.email?.split("@")[0]);
         notActivedEmail.save()
@@ -213,7 +213,7 @@ const getCurrent = asyncHandler( async (req, res) => {
     // req.user có khi mà cái route này chạy vào verify token và nó đã làm hết trong đó rồi
     // verify token dứng trc  route giống như một thằng lính canh v
     const { _id } = req.user;
-    const user = await User.findById(_id).select("-refreshToken -password -role");
+    const user = await User.findById(_id).select("-refreshToken -password");
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : "User is not found"

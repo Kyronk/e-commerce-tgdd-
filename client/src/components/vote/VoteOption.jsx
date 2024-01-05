@@ -1,9 +1,9 @@
 import React, {memo, useRef, useEffect, useState} from 'react';
-import logo from "../assets/logo_digi.png";
-import {Button} from "../components"
+import logo from "../../assets/logo_digi.png";
+import {Button} from ".."
 
-import { voteOptions } from '../utils/contants';
-import icons from '../utils/icons';
+import { voteOptions } from '../../utils/contants';
+import icons from '../../utils/icons';
 
 
 const { IoIosStar } = icons;

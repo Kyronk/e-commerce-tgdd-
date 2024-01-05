@@ -23,6 +23,10 @@
 
     moment: ???
 
+    clsx : viết logic if else vào css of taiwind
+    
+    react-spinners : làm cái loading xoay xoay
+
     
 
 # lỗi out không cài được thư viện

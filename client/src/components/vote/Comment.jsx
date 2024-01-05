@@ -1,8 +1,8 @@
-import React from 'react'
-import avatar from "../assets/avatarDefault.png"
+import React, {memo} from 'react'
+import avatar from "../../assets/avatarDefault.png"
 import moment from "moment"
 
-import { renderStarFromNumber } from '../utils/helpers'
+import { renderStarFromNumber } from '../../utils/helpers'
 
 const Comment = ({image = avatar, name = "Anonymous", updatedAt ,comment, star}) => {
     return (
@@ -37,4 +37,4 @@ const Comment = ({image = avatar, name = "Anonymous", updatedAt ,comment, star})
     )
 }
 
-export default Comment
+export default memo(Comment);

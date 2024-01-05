@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { ProductCart } from "./";
+import React, { useState, useEffect, memo } from 'react'
+import { ProductCart } from "..";
 
-import { apiGetProducts } from "../apis";
+import { apiGetProducts } from "../../apis";
 
 const FeatureProducts = () => {
     const [productList, setProductsList] = useState(null);
@@ -65,4 +65,4 @@ const FeatureProducts = () => {
     )
 }
 
-export default FeatureProducts
+export default memo(FeatureProducts);

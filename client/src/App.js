@@ -60,6 +60,8 @@ function App() {
                     <Route path={path.PRODUCTS} element={<Products />} />
 
                     <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+                    <Route path={path.ALL} element={<Home />} />
+                    
                 </Route>
                 {/* admin */}
                 <Route path={path.ADMIN} element={<AdminLayout />}>
@@ -79,7 +81,6 @@ function App() {
 
                 <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
                 <Route path={path.LOGIN} element={<Login />} />
-                <Route path={path.ALL} element={<Home />} />
 
 
             </Routes>

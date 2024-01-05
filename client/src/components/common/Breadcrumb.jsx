@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {memo} from 'react'
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import { Link } from "react-router-dom";
-import icons from "../utils/icons";
+import icons from "../../utils/icons";
 
 const { MdArrowForwardIos } = icons;
 
@@ -41,4 +41,4 @@ const Breadcrumb = ({ title, category }) => {
     )
 }
 
-export default Breadcrumb
+export default memo(Breadcrumb);

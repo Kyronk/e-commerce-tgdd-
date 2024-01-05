@@ -1,7 +1,7 @@
 import React, { useState, memo } from 'react'
 
 
-import { Product } from "./";
+import { Product } from "..";
 import Slider from "react-slick";
 
 const settings = {

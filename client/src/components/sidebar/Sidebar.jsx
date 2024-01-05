@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {memo} from 'react'
 // import { apiGetCategories } from '../apis/app'
 import { NavLink } from "react-router-dom"
-import  { createSlug } from "../utils/helpers";
+import  { createSlug } from "../../utils/helpers";
 
 import {useSelector} from "react-redux";
 
@@ -43,4 +43,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar
+export default memo(Sidebar);

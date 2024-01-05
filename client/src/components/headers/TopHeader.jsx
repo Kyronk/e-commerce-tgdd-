@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import { Link, useNavigate } from "react-router-dom"
-import path from '../utils/path';
-import icons from '../utils/icons';
+import path from '../../utils/path';
+import icons from '../../utils/icons';
 
-import { getCurrent } from '../store/user/asyncActionCurrent';
+import { getCurrent } from '../../store/user/asyncActionCurrent';
 import { useDispatch, useSelector } from "react-redux"
-import { logout, clearMessage } from '../store/user/userSlice';
+import { logout, clearMessage } from '../../store/user/userSlice';
 import Swal from "sweetalert2";
 
 

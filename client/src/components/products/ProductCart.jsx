@@ -1,5 +1,5 @@
-import React from 'react'
-import { formatMoney, renderStarFromNumber } from '../utils/helpers'
+import React, {memo} from 'react'
+import { formatMoney, renderStarFromNumber } from '../../utils/helpers'
 
 const ProductCart = ({ price, totalRatings, title, image }) => {
     return (
@@ -22,4 +22,4 @@ const ProductCart = ({ price, totalRatings, title, image }) => {
     )
 }
 
-export default ProductCart
+export default memo(ProductCart);

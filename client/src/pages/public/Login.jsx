@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 // import { Header } from '../../components'
 import BG_Login from "../../assets/bg_login.jpg"
-import { InputField, Button } from '../../components'
+import { InputField, Button, Loading } from '../../components'
 // import {Button} from "../../components/"
 import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from '../../apis/user'
 import Swal from "sweetalert2";
@@ -11,6 +11,7 @@ import { useNavigate, Link } from "react-router-dom";
 import path from '../../utils/path';
 import { validate } from '../../utils/helpers';
 
+import { showModal } from "../../store/app/appSlice";
 
 import { login } from '../../store/user/userSlice';
 import { useDispatch } from "react-redux"
@@ -69,7 +70,10 @@ const Login = () => {
         // console.log(payload)
         if(invalid === 0) {
             if(isRegister) {
-            const response = await apiRegister(payload)
+                dispatch(showModal({isShowModal: true, modalChildren: <Loading />}));
+                const response = await apiRegister(payload);
+                dispatch(showModal({isShowModal: false, modalChildren: null }));
+
             // console.log(payload)
             // Swal.fire(response.success? "Congratulation": "Oops!", response.mes, response.success ? "success": "error").then(() => {
             //     setIsRegister(false);

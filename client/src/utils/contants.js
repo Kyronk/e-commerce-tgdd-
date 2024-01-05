@@ -128,7 +128,18 @@ export const productInfoTabs = [
     // },
 ]
 
-export const colors = [ "red", "blue", "green", "Yellow", "Black", "White", "Pink" ];
+export const colors = [ 
+    "black", 
+    "brown", 
+    "gray", 
+    "white", 
+    "pink", 
+    "yellow", 
+    "orange",
+    "purple",
+    "green",
+    "blue", 
+];
 
 export const sorts = [
     {
@@ -218,3 +229,58 @@ export const voteOptions = [
 //         color: "pink"
 //     }
 // ]
+
+const { 
+    AiOutlineDashboard,
+    HiUserGroup,
+    CiBoxes,
+    MdOutlineBorderColor,
+} = icons;
+
+export const adminSideBar = [
+    {
+        id: 1,
+        type: "SINGLE",
+        text: "Dashboard",
+        path: `/${path.ADMIN}/${path.DASHBOARD}`,
+        icon: <AiOutlineDashboard />,
+    },
+    {
+        id: 2,
+        type: "SINGLE",
+        text: "Manager Users",
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+        icon: <HiUserGroup />,
+    },
+    {
+        id: 3,
+        type: "PARENT",
+        text: "Products",
+        path: `/${path.ADMIN}/${path.DASHBOARD}`,
+        icon: <CiBoxes />,
+        submenu: [
+            {
+                text: "Create product",
+                path:  `/${path.ADMIN}/${path.CREATE_PRODUCTS}`
+            },
+            {
+                text: "Manager products",
+                path: `/${path.ADMIN}/${path.MANAGE_PRODUCTS}`
+            }
+        ]
+    },
+    {
+        id: 4,
+        type: "SINGLE",
+        text: "Manager oders",
+        path: `/${path.ADMIN}/${path.MANAGE_ODER}`,
+        icon: <MdOutlineBorderColor />,
+    },
+    // {
+    //     id: 1,
+    //     type: "single",
+    //     text: "Dashboard",
+    //     path: `/${path.ADMIN}/${path.DASHBOARD}`,
+    //     icon: <AiOutlineDashboard />,
+    // },
+]

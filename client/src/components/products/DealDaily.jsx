@@ -1,15 +1,15 @@
 import React, { useState, useEffect, memo} from 'react'
-import icons from "../utils/icons";
+import icons from "../../utils/icons";
 
-import { renderStarFromNumber, formatMoney, secondsToHms } from "../utils/helpers";
+import { renderStarFromNumber, formatMoney, secondsToHms } from "../../utils/helpers";
 // import { formatMoney } from '../utils/helpers'
 
 import moment from 'moment/moment';
 
-import { apiGetProducts } from "../apis/product";
+import { apiGetProducts } from "../../apis/product";
 
 // import { Countdown } from "./index";
-import { Countdown } from "./"
+import { Countdown } from ".."
 
 const { IoIosStar, IoMdMenu } = icons;
 

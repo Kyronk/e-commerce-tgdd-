@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 // import { BiDotsHorizontal } from "react-icons/bi";
 import clsx from "clsx";
 import { useSearchParams,  useNavigate, useParams, createSearchParams } from 'react-router-dom';
@@ -45,4 +45,4 @@ const PagiItem = ({children}) => {
     )
 }
 
-export default PagiItem;
+export default memo(PagiItem);

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
-import { formatMoney } from '../utils/helpers'
-import label from "../assets/label.png"
-import labelBlue from "../assets/label_2.png"
-import { renderStarFromNumber } from "../utils/helpers";
+import { formatMoney } from '../../utils/helpers'
+import label from "../../assets/label.png"
+import labelBlue from "../../assets/label_2.png"
+import { renderStarFromNumber } from "../../utils/helpers";
 
-import { SelectOption } from "./";
-import icons from '../utils/icons';
+import { SelectOption } from "..";
+import icons from '../../utils/icons';
 
 import { Link } from 'react-router-dom';
 // import path from '../utils/path';
@@ -71,4 +71,4 @@ const Product = ({ProductData, isNew, normal}) => {
     )
 }
 
-export default Product
+export default memo(Product);

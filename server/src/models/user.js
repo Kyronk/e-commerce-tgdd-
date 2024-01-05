@@ -35,7 +35,15 @@ var userSchema = new mongoose.Schema({
     },
     role: {
         type:String,
-        default: "user"
+        // sau này sẽ có nhiều kiểu role như admin, customer, user ...
+        // ví dụ mỗi role sẽ quy ước admin: A5, custumer: A1, User: C2
+        // chia bảng + mã hoá thì dữ liệu sẽ an toàn hơn (có lẽ v, không chắt chắn lắm)
+        // ở đây với mongoDB thì tạm thời dùng enum
+
+        // quy ước 1945 là Admin, 1979 là user
+        enum: [1945, 1979],
+        default: 1979
+        // default: "user"
     },
     cart: [
         {

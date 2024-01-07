@@ -10,6 +10,9 @@ const jwt = require("jsonwebtoken");
 
 const makeToken = require("uniqid");
 
+const { users } = require("../utils/userData");
+const { query } = require("express");
+
 // khúc này register 1 cái là vào luôn
 
 // const register = asyncHandler(async (req, res) => {
@@ -212,13 +215,77 @@ const getCurrent = asyncHandler( async (req, res) => {
     // chỗ này : đây là route có check xem bạn có  quyền get hay không
     // req.user có khi mà cái route này chạy vào verify token và nó đã làm hết trong đó rồi
     // verify token dứng trc  route giống như một thằng lính canh v
+
     const { _id } = req.user;
     const user = await User.findById(_id).select("-refreshToken -password");
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : "User is not found"
     })
+    // const queries = {...req.query};
 
+    // const excludeFields = ["limit", "sort", "page", "fields"];
+    // excludeFields.forEach(el => delete queries[el]);
+    // // console.log(excludeFields);
+
+    // // format lại các operator cho đúng cú pháp của mongoose
+    // let queryString = JSON.stringify(queries);
+    // queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, macthedEl => `$${macthedEl}`);
+    // // console.log(queryString)
+    // const formatedQueries = JSON.parse(queryString);
+
+    // if(queries?.name) formatedQueries.name = {$regex: queries.title, $options: 'i'};
+    
+    // if( req.query.q) {
+    //     delete formatedQueries.q;
+    //     formatedQueries['$or'] = [
+    //         {firstname: {$regex: req.query.q, $options: "i"  }},
+    //         {lastname: {$regex: req.query.q, $options: "i"  }},
+    //         {email: {$regex: req.query.q, $options: "i"  }},
+
+    //     ]
+    // }
+    // console.log(formatedQueries);
+
+    // let queryCommand = User.find(formatedQueries);
+    
+    // // acb, efg => [abc, efg]  => abc dfg
+    // if(req.query.sort) {
+    //     const sortBy = req.query.sort.split(",").join(" ");
+    //     queryCommand = queryCommand.sort(sortBy);
+    // }
+
+    // // fields limiting
+    // if(req.query.fields) {
+    //     const fields = req.query.fields.split(',').join(" ");
+    //     queryCommand = queryCommand.select(fields);
+    // }
+
+    // // pagination ( phân  trang)
+    // // limit: số object lấy vể trong 1 lần gọi api
+    // // skips: 2
+    // // 1 2 3 ... 10
+    // // +2 => 2
+    // // +dads => NaN
+    // const page = +req.query.page || 1;
+    // const limit = +req.query.limit || process.env.LIMIT_PRODUCT;
+    // const skip = (page - 1) * limit;
+    // queryCommand.skip(skip).limit(limit);
+
+    // // Execute query
+    // // số lượng sản phẩm trả về thoả điều kiện
+    // queryCommand.exec(async (err, response) => {
+    //     if(err) throw new Error(err.message);
+    //     const counts = await User.find(formatedQueries).countDocuments();
+    //     // console.log(counts);
+    //     // console.log(response);
+    
+    //     return res.status(200).json({
+    //         success: response? true : false,
+    //         counts,
+    //         listUser: response ? response : "cannot get product list",
+    //     })
+    // })
 }) 
 
 
@@ -317,13 +384,128 @@ const resetPassword = asyncHandler(async (req, res) => {
     })
 });
 
-
 const getListUser = asyncHandler(async (req, res) => {
-    const response = await User.find().select('-refreshToken -password -role');
+    const queries = {...req.query};
+    const excludeFields = ["limit", "sort", "page", "fields"];
+    excludeFields.forEach(el => delete queries[el]);
+    
+    let queryString = JSON.stringify(queries);
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, macthedEl => `$${macthedEl}`);
+    const formatedQueries = JSON.parse(queryString);
 
-    return res.status(200).json({
-        success: response ? true : false,
-        ListUser: response
+    // let colorQueryObject = {};
+    
+    if(queries?.name) formatedQueries.name = {$regex: queries.title, $options: 'i'};
+    if( req.query.q) {
+        delete formatedQueries.q;
+        formatedQueries['$or'] = [
+            {firstname: {$regex: req.query.q, $options: "i"  }},
+            {lastname: {$regex: req.query.q, $options: "i"  }},
+            {email: {$regex: req.query.q, $options: "i"  }},
+        ]
+    }
+
+    // const q = {...colorQueryObject, ...formatedQueries}
+    let queryCommand = User.find(formatedQueries);
+    
+    if(req.query.sort) {
+        const sortBy = req.query.sort.split(",").join(" ");
+        queryCommand = queryCommand.sort(sortBy);
+    }
+
+    
+    if(req.query.fields) {
+        const fields = req.query.fields.split(',').join(" ");
+        queryCommand = queryCommand.select(fields);
+    }
+
+
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || process.env.LIMIT_PRODUCT;
+    const skip = (page - 1) * limit;
+    queryCommand.skip(skip).limit(limit);
+
+    
+    queryCommand.exec(async (err, response) => {
+        if(err) throw new Error(err.message);
+        const counts = await User.find(formatedQueries).countDocuments();
+        
+        return res.status(200).json({
+            success: response? true : false,
+            counts,
+            listUser: response ? response : "cannot get product list",
+        })
+    })
+
+})
+
+
+const getListUser1 = asyncHandler(async (req, res) => {
+    // const response = await User.find().select('-refreshToken -password -role');
+
+    // return res.status(200).json({
+    //     success: response ? true : false,
+    //     ListUser: response
+    // })
+    const queries = {...req.query};
+
+    const excludeFields = ["limit", "sort", "page", "fields"];
+    excludeFields.forEach(el => delete queries[el]);
+
+    let queryString = JSON.stringify(queries);
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, macthedEl => `$${macthedEl}`);
+    // console.log(queryString)
+    const formatedQueries = JSON.parse(queryString);
+
+    if(queries?.name) formatedQueries.name = {$regex: queries.name, $options: 'i'};
+    if( req.query.q) {
+        delete formatedQueries.q;
+        formatedQueries['$or'] = [
+            {firstname: {$regex: req.query.q, $options: "i"  }},
+            {lastname: {$regex: req.query.q, $options: "i"  }},
+            {email: {$regex: req.query.q, $options: "i"  }},
+        ]
+    }
+    console.log(formatedQueries);
+
+    let queryCommand = User.find(formatedQueries);
+    
+    // acb, efg => [abc, efg]  => abc dfg
+    if(req.query.sort) {
+        const sortBy = req.query.sort.split(",").join(" ");
+        queryCommand = queryCommand.sort(sortBy);
+    }
+
+    // fields limiting
+    if(req.query.fields) {
+        const fields = req.query.fields.split(',').join(" ");
+        queryCommand = queryCommand.select(fields);
+    }
+
+    // pagination ( phân  trang)
+    // limit: số object lấy vể trong 1 lần gọi api
+    // skips: 2
+    // 1 2 3 ... 10
+    // +2 => 2
+    // +dads => NaN
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || process.env.LIMIT_PRODUCT;
+    const skip = (page - 1) * limit;
+    queryCommand.skip(skip).limit(limit);
+
+    // Execute query
+    // số lượng sản phẩm trả về thoả điều kiện
+    queryCommand.exec(async (err, response) => {
+        if(err) throw new Error(err.message);
+        const counts = await User.find(formatedQueries).countDocuments();
+        // console.log(counts);
+        // console.log(response);
+    
+        return res.status(200).json({
+            success: response? true : false,
+            counts,
+            listUser: response ? response : "cannot get product list",
+        })
     })
 });
 
@@ -412,7 +594,13 @@ const updateCart = asyncHandler(async (req, res) => {
     }
 });
 
-
+const createUser = asyncHandler( async (req, res) => {
+    const response = await User.create(users);
+    return res.status(200).json({
+        success: response ? true : false,
+        users: response ? response : "Some thing went wrong"
+    })
+})
 
 
 module.exports = {
@@ -430,6 +618,8 @@ module.exports = {
     updateUserByAdmin,
     updateAddress,
     updateCart,
+
+    createUser
 
 }
 

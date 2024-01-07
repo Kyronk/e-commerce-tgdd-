@@ -7,10 +7,11 @@ const Pagination = ({ totalCount }) => {
     // console.log(usePagination(100,10))
     const [params] = useSearchParams();
     const pagination = usePagination(totalCount, 2);
+    console.log(totalCount)
 
     const range = () => {
         const currentPage = +params.get("page");
-        const pageSize = +process.env.REACT_APP_PRODUCT_LIMIT || 10;
+        const pageSize = +process.env.REACT_APP_LIMIT || 10;
         const start = ((currentPage - 1) * pageSize) + 1;
         const end = Math.min(currentPage * pageSize, totalCount);
 
@@ -19,11 +20,11 @@ const Pagination = ({ totalCount }) => {
 
     return (
 
-        <div className='flex w-main justify-between items-center'>
-            {!+params.get("page") && <span className='text-sm italic'>{`Show products 1 - ${+process.env.REACT_APP_PRODUCT_LIMIT || 10}
+        <div className='flex w-full justify-between items-center'>
+            {!params.get("page") && <span className='text-sm italic'>{`Show products 1 - ${Math.min(process.env.REACT_APP_LIMIT, totalCount ) || 10}
             of ${totalCount} `}</span>}
 
-            {params.get("page") && <span className='text-sm italic'>{`Show products ${range()} of ${totalCount}`}</span>}
+            {+params.get("page") && <span className='text-sm italic'>{`Show products ${range()} of ${totalCount}`}</span>}
             
             <div className='flex items-center'>
                 {pagination?.map((el) => (

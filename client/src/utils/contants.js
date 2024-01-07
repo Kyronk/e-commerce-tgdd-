@@ -260,10 +260,12 @@ export const adminSideBar = [
         icon: <CiBoxes />,
         submenu: [
             {
+                id: 1,
                 text: "Create product",
                 path:  `/${path.ADMIN}/${path.CREATE_PRODUCTS}`
             },
             {
+                id: 2,
                 text: "Manager products",
                 path: `/${path.ADMIN}/${path.MANAGE_PRODUCTS}`
             }
@@ -283,4 +285,15 @@ export const adminSideBar = [
     //     path: `/${path.ADMIN}/${path.DASHBOARD}`,
     //     icon: <AiOutlineDashboard />,
     // },
+]
+
+export const roles = [
+    {
+        code: 1945,
+        value: "Admin",
+    },
+    {
+        code: 1979,
+        value: "User",
+    }
 ]

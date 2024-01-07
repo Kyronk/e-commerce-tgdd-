@@ -28,11 +28,14 @@ const Products = () => {
     
     
     useEffect(() => {
-        let param = [];
-        for (let i of params.entries()) param.push(i);
-        const queries = {};
+        // let param = [];
+        // for (let i of params.entries()) param.push(i);
+        // const queries = {};
+        // let priceQuery = {};
+        // for(let i of params) queries[i[0]] = i[1];
+        const queries = Object.fromEntries([...params]);
+        // console.log(queries);
         let priceQuery = {};
-        for(let i of params) queries[i[0]] = i[1];
 
         if(queries.to && queries.from) {
             priceQuery = {
@@ -79,6 +82,8 @@ const Products = () => {
             })
         }
     }, [sort]);
+
+    // console.log(products.counts);
 
     return (
         <div className='w-full'>
@@ -135,7 +140,7 @@ const Products = () => {
 
             <div className=' mt-8 w-main m-auto my-4 flex justify-end'>
                 <Pagination 
-                    totalCount={products?.counts}
+                    totalCount={products.counts}
                 />
             </div>
 

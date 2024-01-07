@@ -1,26 +1,30 @@
 import React, { useEffect, memo } from 'react'
 // import { BiDotsHorizontal } from "react-icons/bi";
 import clsx from "clsx";
-import { useSearchParams,  useNavigate, useParams, createSearchParams } from 'react-router-dom';
+import { useSearchParams,  useNavigate, createSearchParams, useLocation } from 'react-router-dom';
 
 
 const PagiItem = ({children}) => {
     const navigate = useNavigate();
-    const { category } = useParams();
+    // const { category } = useParams();
+    const location = useLocation();
     const [params] = useSearchParams();
 
+    // console.log(params)
     // console.log(params.get("page"));
 
     const handlePagination = () => {
-        let param = [];
-        // console.log(param)
-        for (let i of params.entries()) param.push(i);
-        const queries = {};
-        for (let i of param ) queries[i[0]] = i[1];
+        // let param = [];
+        // // console.log(param)
+        // for (let i of params.entries()) param.push(i);
+        // const queries = {};
+        // for (let i of param ) queries[i[0]] = i[1];
+        const queries = Object.fromEntries([...params]);
+        console.log(queries);
         if (Number(children)) queries.page = children;
-        // console.log(queries)
         navigate({
-            pathname: `/${category}`,
+            // pathname: `/${category}`,
+            pathname: location.pathname,
             search: createSearchParams(queries).toString()
         })
     }
@@ -36,9 +40,9 @@ const PagiItem = ({children}) => {
             +params.get("page") === +children && "rounded-full bg-gray-300",
             !+params.get("page") && +children === 1 && "rounded-full bg-gray-300"
         )}
-        onClick={handlePagination}
-        type='button'
-        disabled={!Number(children)}
+            onClick={handlePagination}
+            type='button'
+            disabled={!Number(children)}
         >
             {children}
         </button>

@@ -16,16 +16,17 @@ export const userSlice = createSlice({
             state.isLoggedIn = action.payload.isLoggedIn;
             // state.current = action.payload.userData;
             state.token = action.payload.token;
+            // state.current = action.payload.current;
         },
         logout: (state, action) => {
-            state.isLoggedIn  = false
-            state.current = null
-            state.token = null
-            state.isLoading = false
-            state.mes = ""
+            state.isLoggedIn  = false;
+            state.current = null;
+            state.token = null;
+            state.isLoading = false;
+            state.mes = "";
         },
         clearMessage: (state, action) => {
-            state.mes = ""
+            state.mes = "";
         }
     },
 

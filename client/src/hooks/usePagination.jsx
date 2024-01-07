@@ -7,7 +7,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 const usePagination = (totalProductCount, currentPage, siblingCount = 1) => {
     const paginationArray = useMemo(() => {
-        const pageSize = process.env.REACT_APP_PRODUCT_LIMIT  || 10;
+        const pageSize = process.env.REACT_APP_LIMIT  || 10;
         const paginationCount = Math.ceil(totalProductCount / pageSize);
         const totalPaginationItem = siblingCount + 5;
 
@@ -28,7 +28,7 @@ const usePagination = (totalProductCount, currentPage, siblingCount = 1) => {
         }
 
         const siblingLeft = Math.max(currentPage - siblingCount, 1);
-        const singlingRight = Math.min(currentPage+ siblingCount, paginationCount);
+        const singlingRight = Math.min(currentPage + siblingCount, paginationCount);
 
         if(isShowLeft && isShowRight) {
             const middleRange = generateRange(siblingLeft, singlingRight);
@@ -41,7 +41,7 @@ const usePagination = (totalProductCount, currentPage, siblingCount = 1) => {
     return  paginationArray;
 }
 
-export default usePagination
+export default usePagination;
 
 // first + last + current + sibling + 2*DOTS
 // min = 6 => sibling + 5

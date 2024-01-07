@@ -4,6 +4,7 @@ const ctrl = require("../controllers/user");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
 router.post("/register", ctrl.register);
+router.post("/mock", ctrl.createUser);
 // router.get("/finalregister/:token", ctrl.finalRegister);
 router.put("/finalregister/:token", ctrl.finalRegister);
 

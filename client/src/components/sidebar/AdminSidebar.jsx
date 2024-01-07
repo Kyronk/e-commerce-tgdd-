@@ -43,13 +43,13 @@ const AdminSidebar = () => {
                                     <span>{el.icon}</span>
                                     <span>{el.text}</span>
                                 </div>
-                                {actived.some(id => id === el.id) ? <FaCaretRight/> : <FaCaretDown />}
+                                {actived.some(id => id === +el.id) ? <FaCaretRight/> : <FaCaretDown />}
                             </div>
 
-                            {actived.some(id => +id === +el.id) &&  <div className='flex flex-col'>
+                            {actived.some(id => id === +el.id) &&  <div className='flex flex-col'>
                                 {el.submenu.map(item => (
                                     <NavLink 
-                                        key={el.text} 
+                                        key={el.id} 
                                         to={item.path}
                                         onClick={(e) => e.stopPropagation()}
                                         className={({isActive}) => clsx(isActive && activedStyle, !isActive && notActivedStyle, " pl-10")}

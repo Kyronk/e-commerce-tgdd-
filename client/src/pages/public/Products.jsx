@@ -18,6 +18,8 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [ activeClick, setActiveClick ] = useState(null);
     const [params] = useSearchParams();
+    
+    console.log(params)
     const [sort, setSort] = useState("");
 
     const fetchProductsByCategory = async (queries) => {

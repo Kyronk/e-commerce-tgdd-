@@ -16,11 +16,13 @@ const ManageUser = () => {
         q: ""
     });
     const [params] = useSearchParams();
-    // console.log(params)
+
+    console.log(params)
     const fetchListUser = async (params) => {
         // const response = await apiGetUsers(params);
         // const response = await apiGetUsers(params);
         const response = await apiGetUsers({...params, limit: process.env.REACT_APP_LIMIT});
+        // const response = await apiGetUsers({...params, limit: 2})
         // console.log(response)
         if (response.success) setListUser(response)
     }
@@ -31,8 +33,8 @@ const ManageUser = () => {
 
     useEffect(() => {
         // fetchListUser({q: queriesDebounce})
-        const queries = Object.entries([...params]);
-        console.log(queries)
+        const queries = Object.fromEntries([...params]);
+        // console.log(queries)
         if (queriesDebounce) queries.q = queriesDebounce;
         fetchListUser(queries)
     }, [queriesDebounce, params])

@@ -6,8 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 const Pagination = ({ totalCount }) => {
     // console.log(usePagination(100,10))
     const [params] = useSearchParams();
-    const pagination = usePagination(totalCount, 2);
-    console.log(totalCount)
+    const pagination = usePagination(totalCount, params.get("[age") ||  1);
+    // console.log(totalCount)
 
     const range = () => {
         const currentPage = +params.get("page");

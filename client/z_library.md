@@ -27,6 +27,7 @@
     
     react-spinners : làm cái loading xoay xoay
 
+    react-hook-form : xử lý form nhanh hơn
     
 
 # lỗi out không cài được thư viện

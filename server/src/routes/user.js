@@ -33,7 +33,7 @@ router.get("/getusers-test", [verifyAccessToken, isAdmin], ctrl.getListUser); //
 // hai là dùng như thế này
 router.use(verifyAccessToken);
 router.get("/getusers", isAdmin , ctrl.getListUser);
-router.delete("/", isAdmin , ctrl.deleteUser);
+router.delete("/:uid", isAdmin , ctrl.deleteUser);
 router.put("/address", ctrl.updateAddress);
 router.put("/current", ctrl.updateUser);
 router.post("/cart", ctrl.updateCart);

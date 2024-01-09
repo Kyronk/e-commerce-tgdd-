@@ -510,13 +510,13 @@ const getListUser1 = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-    const { _id } = req.query;
-    if(!_id) throw new Error("Missing input");
-    const response = await User.findByIdAndDelete(_id);
+    const { uid } = req.params;
+    // if(!_id) throw new Error("Missing input");
+    const response = await User.findByIdAndDelete(uid);
     
     return res.status(200).json({
         success: response ? true : false,
-        deleteUser: response ? `User with email ${response.email} delete` : "No user delete"
+        mes: response ? `User with email ${response.email} delete` : "No user delete"
     })
 });
 
@@ -542,7 +542,7 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
     console.log(response);
     return res.status(200).json({
         success: response ? true : false,
-        updateUser: response ? response : "something went wrong"
+        mes: response ? "updated! " : "something went wrong"
     })
 });
 

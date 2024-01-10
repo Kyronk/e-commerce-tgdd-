@@ -1,3 +1,4 @@
+import { validate } from "./helpers";
 import icons from "./icons";
 import path from "./path";
 
@@ -255,7 +256,7 @@ export const adminSideBar = [
     {
         id: 3,
         type: "PARENT",
-        text: "Products",
+        text: "Manager Products",
         path: `/${path.ADMIN}/${path.DASHBOARD}`,
         icon: <CiBoxes />,
         submenu: [
@@ -296,4 +297,15 @@ export const roles = [
         code: 1979,
         value: "User",
     }
-]
+];
+
+export const blockStatus = [
+    {
+        code: true,
+        value: "Blocked"
+    }, 
+    {
+        code: false,
+        value: "Active"
+    }
+];

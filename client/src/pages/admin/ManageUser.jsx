@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { apiGetUsers, apiUpdateUser, apiDeleteUser } from 'src/apis';
 
-import { roles } from 'src/utils/contants';
+import { roles, blockStatus } from 'src/utils/contants';
 import moment from 'moment';
 
 import { InputField, Pagination, InputForm, Select, Button } from 'src/components';
@@ -13,16 +13,17 @@ import { useForm } from "react-hook-form";
 
 import {toast} from "react-toastify";
 import Swal from "sweetalert2";
+import clsx from 'clsx';
 
 const ManageUser = () => {
 
-    const { handleSubmit, register, formState: { errors} } = useForm({
+    const { handleSubmit, register, formState: { errors}, reset } = useForm({
         email: "",
         firstname: "",
         lastname: "",
         role: "",
         phone: "",
-        status: ""
+        isBlocked: ""
     })
 
     const [ listUser, setListUser ] = useState([])
@@ -96,7 +97,7 @@ const ManageUser = () => {
     }
 
     return (
-        <div className='w-full'>
+        <div className={clsx("w-full", editElm && "pl-16")}>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b border-gray-300'>
                 <span>Manage users</span>
             </h1>
@@ -180,7 +181,16 @@ const ManageUser = () => {
 
                                 <td className='py-2 px-4' >
                                     { editElm?._id === el._id 
-                                    ? <Select /> 
+                                    ? <Select 
+                                        register={register}
+                                        errors={errors}
+                                        fullWidth
+                                        id={"role"}
+                                        // defaultValue={roles.find(role => +role.code === +el.role)?.value}
+                                        defaultValue={el.role}
+                                        validate={{required: "Require fill."}}
+                                        options={roles}
+                                    /> 
                                     : <span>{roles.find(role => +role.code === +el.role)?.value}</span>}
                                 </td>
                                 
@@ -207,7 +217,15 @@ const ManageUser = () => {
 
                                 <td className='py-2 px-4' >
                                     { editElm?._id === el._id 
-                                    ? <Select /> 
+                                    ? <Select 
+                                        register={register}
+                                        errors={errors}
+                                        fullWidth
+                                        id={"isBlocked"}
+                                        defaultValue={el?.isBlocked}
+                                        validate={{required: "Require fill."}}
+                                        options={blockStatus}
+                                        /> 
                                     : <span>{el.isBlocked ? "Blocked" : "Active"}</span>}
                                 </td>
                                 <td className='py-2 px-4' >{moment(el.createdAt).format("DD/MM/YYYY")}</td>

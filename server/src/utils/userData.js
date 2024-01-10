@@ -1,6 +1,6 @@
 exports.users = [
     {
-        email: "user5@gmail.com",
+        email: "user1@gmail.com",
         password: "123456",
         firstname: "Jimmy",
         lastname: "test 1",

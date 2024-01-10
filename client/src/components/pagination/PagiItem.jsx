@@ -20,7 +20,7 @@ const PagiItem = ({children}) => {
         // const queries = {};
         // for (let i of param ) queries[i[0]] = i[1];
         const queries = Object.fromEntries([...params]);
-        console.log(queries);
+        // console.log(queries);
         if (Number(children)) queries.page = children;
         navigate({
             // pathname: `/${category}`,

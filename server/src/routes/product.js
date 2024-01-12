@@ -28,12 +28,25 @@ router.put("/ratings", verifyAccessToken, ctrl.ratings);
 router.put("/uploadimage/:pid", [verifyAccessToken, isAdmin], 
     uploader.array("image", 10), ctrl.uploadImageProduct);
 
+// chỗ này phải úp ảnh ở 2 chỗ 
+// + 1 tấm dàng như avatar đại điẹn của sản phẩm
+// + 1  list từ 1 đến n + 1 tấm về chi tiết của sản phẩm
+// + các project tương lai có thể thêm 1 vài phần về background : khi đó phải up tới 3 + n thành phần 1 lúc
+// router.put("/uploadimage/:pid", [verifyAccessToken, isAdmin], 
+//     uploader.fields([
+//         {name: "images", maxCount: 10},
+//         {name: "thumb", maxCount: 1}
+//     ]), ctrl.uploadImageProduct);
+
 router.get("/:pid", ctrl.getOneProduct);
 router.put("/:pid", [verifyAccessToken, isAdmin], ctrl.updateProduct);
 router.delete("/:pid", [verifyAccessToken, isAdmin], ctrl.deleteProduct);
 
 // nên để mấy cái route ngắn vs có ký tự ít xuống dưới
-router.post("/", [verifyAccessToken, isAdmin], ctrl.creteProduct);
+router.post("/", [verifyAccessToken, isAdmin], uploader.fields([
+    {name: "images", maxCount: 10},
+    {name: "thumb", maxCount: 1}
+]) ,ctrl.creteProduct);
 
 module.exports = router
 

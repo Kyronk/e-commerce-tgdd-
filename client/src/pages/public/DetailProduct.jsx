@@ -11,6 +11,8 @@ import { formatMoney, formatPrice, renderStarFromNumber } from '../../utils/help
 
 import { productExtraInformation } from "../../utils/contants";
 
+import DOMPurify from 'dompurify';
+
 const settings = {
     dots: false,
     infinite: false,
@@ -130,7 +132,8 @@ const DetailProduct = () => {
                         <span className='text-sm text-main italic'> {`(Sold: ${product?.sold} prices) `}</span>
                     </div>
                     <ul className='list-square text0sm text-gray-500 pl-4'>
-                        {product?.description?.map(el => (<li key={el} className='leading-6' >{el}</li>))}
+                        { product?.description?.length > 1 && product?.description?.map(el => (<li key={el} className='leading-6' >{el}</li>))}
+                        { product?.description?.length === 1 && <div className='text-sm line-clamp-6' dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(product?.description[0])}}></div> }
                     </ul>
                     
                     <div className='flex flex-col gap-8'>

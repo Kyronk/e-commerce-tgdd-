@@ -29,6 +29,11 @@
 
     react-hook-form : xử lý form nhanh hơn
     
+    @tinymce/tinymce-react & mce tiny : https://www.tiny.cloud/my-account/integrate/#html : cái này để tạo mẫu doc trên trang desc thông tin của sản phẩm,...
+
+    dompurify : tinymce tạo text <p> nội dung </p>, dompurify giúp chuyển ra và hiẻn thị lại 
+
+    
 
 # lỗi out không cài được thư viện
     - Do thư viện không còn được hỗ trợ

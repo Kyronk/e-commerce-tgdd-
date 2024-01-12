@@ -1,7 +1,7 @@
 import React, {memo, Fragment, useState} from 'react'
 import logo from "../../assets/logo_digi.png";
 import { adminSideBar } from 'src/utils/contants';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import clsx from "clsx";
 
 import { FaCaretDown } from "react-icons/fa";
@@ -20,10 +20,10 @@ const AdminSidebar = () => {
 
     return (
         <div className='h-full bg-gray-100 py-4'>
-            <div className='flex flex-col justify-normal items-center py-4 gap-2'>
+            <Link to={"/"} className='flex flex-col justify-normal items-center py-4 gap-2'>
                 <img src={logo} alt="" className='w-[200px] object-contain' />
                 <span>Admin Workspace</span>
-            </div>
+            </Link>
 
             <div>
                 {adminSideBar.map(el => (

@@ -3,13 +3,24 @@ const asyncHandle = require("express-async-handler");
 const slugify = require("slugify");
 
 const creteProduct = asyncHandle(async (req, res) => {
-    if( Object.keys(req.body).length === 0) throw new Error("Missing inputs");
-    if(req.body && req.body.title) req.body.slug = slugify(req.body.title);
+    const { title, price, description, brand, category, color } = req.body;
+    const thumb = req.file?.thumb[0].path;
+    const images = req.files?.images?.map(el => el.path);
+
+    if (!(title && price && description && brand && category && color)) throw new Error("Missing inputs");
+    if (thumb) req.body.thumb = thumb;
+    if (images) req.body.images = images;
+    // if( Object.keys(req.body).length === 0) throw new Error("Missing inputs");
+    
+    //if(req.body && req.body.title) req.body.slug = slugify(req.body.title);
+    req.body.slug = slugify(title);
+    
     const newProduct = await Product.create(req.body);
 
     return res.status(200).json({
         success: newProduct ? true : false,
         createdProduct: newProduct ? newProduct : "can not create new product"
+        // thumb, images
     });
 });
 

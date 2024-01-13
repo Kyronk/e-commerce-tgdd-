@@ -96,7 +96,7 @@ const DetailProduct = () => {
 
             <div className='w-main m-auto mt-4 flex'>
                 <div className='flex flex-col gap-4 w-2/5'>
-                    <div className='h-[458px] w-[458px] border overflow-hidden'>
+                    <div className='h-[458px] w-[458px] border flex items-center overflow-hidden'>
                         <ReactImageMagnify {...{
                             smallImage: {
                                 alt: 'Wristwatch by Ted Baker London',

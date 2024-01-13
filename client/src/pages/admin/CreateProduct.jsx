@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { InputForm, Select, Button, MarkdownEditor } from 'src/components'; 
+import { InputForm, Select, Button, MarkdownEditor, Loading } from 'src/components'; 
 import { useForm } from "react-hook-form";
 
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
 
 import { validate, getBase64 } from 'src/utils/helpers';
 import { toast } from "react-toastify"
@@ -12,10 +12,12 @@ import { TbTrashXFilled } from "react-icons/tb";
 
 import { apiCreateProduct } from 'src/apis';
 
+import { showModal } from 'src/store/app/appSlice';
+
 const CreateProduct = () => {
 
     const {categories} = useSelector(state => state.app);
-
+    const dispatch = useDispatch();
     const {register, formState: {errors}, reset, handleSubmit, watch} = useForm();
 
     // console.log(watch("category"));
@@ -89,9 +91,20 @@ const CreateProduct = () => {
             if (finalPayload.thumb) formData.append("thumb", finalPayload.thumb[0]);
             if (finalPayload.images) {
                 for (let image of finalPayload.images) formData.append('images', image)
-            }
+            };
+
+            dispatch(showModal({ isShowModal: true, modalChildren: <Loading />}))
             const response = await apiCreateProduct(formData);
-            console.log(response);
+            dispatch(showModal({ isShowModal: false, modalChildren: null}))
+            // console.log(response);
+            if (response.success) {
+                toast.success(response.mes);
+                reset();
+                setPayload({
+                    thumb: "",
+                    image: []
+                });
+            } else toast.error(response.mes);
         }
     }
     

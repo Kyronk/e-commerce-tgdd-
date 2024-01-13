@@ -4,7 +4,8 @@ const slugify = require("slugify");
 
 const creteProduct = asyncHandle(async (req, res) => {
     const { title, price, description, brand, category, color } = req.body;
-    const thumb = req.file?.thumb[0].path;
+    const thumb = req.files?.thumb[0]?.path;
+    // console.log(thumb)
     const images = req.files?.images?.map(el => el.path);
 
     if (!(title && price && description && brand && category && color)) throw new Error("Missing inputs");
@@ -19,7 +20,7 @@ const creteProduct = asyncHandle(async (req, res) => {
 
     return res.status(200).json({
         success: newProduct ? true : false,
-        createdProduct: newProduct ? newProduct : "can not create new product"
+        mes: newProduct ? "Created !" : "Failed."
         // thumb, images
     });
 });

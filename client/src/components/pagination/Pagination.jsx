@@ -6,13 +6,14 @@ import { useSearchParams } from 'react-router-dom';
 const Pagination = ({ totalCount }) => {
     // console.log(usePagination(100,10))
     const [params] = useSearchParams();
-    const pagination = usePagination(totalCount, params.get("[age") ||  1);
+    const pagination = usePagination(totalCount, +params.get("page") ||  1);
     // console.log(totalCount)
 
     const range = () => {
         const currentPage = +params.get("page");
         const pageSize = +process.env.REACT_APP_LIMIT || 10;
-        const start = ((currentPage - 1) * pageSize) + 1;
+        // const start = ((currentPage - 1) * pageSize) + 1;
+        const start = Math.min(((currentPage - 1) *   pageSize) + 1, totalCount);
         const end = Math.min(currentPage * pageSize, totalCount);
 
         return `${start} - ${end}`;
@@ -26,6 +27,9 @@ const Pagination = ({ totalCount }) => {
 
             {+params.get("page") && <span className='text-sm italic'>{`Show products ${range()} of ${totalCount}`}</span>} */}
             
+            {/* {!+params.get("page") ? <span className='text-sm italic'>{`Show products 1 - ${Math.min(process.env.REACT_APP_LIMIT, totalCount ) || 10}
+            of ${totalCount} `}</span> : ""} */}
+
             {!+params.get("page") ? <span className='text-sm italic'>{`Show products 1 - ${Math.min(process.env.REACT_APP_LIMIT, totalCount ) || 10}
             of ${totalCount} `}</span> : ""}
 

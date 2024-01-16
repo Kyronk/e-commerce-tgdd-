@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
-import { InputForm, Pagination } from 'src/components'
+import { CustomizeVariants, InputForm, Pagination } from 'src/components'
 import { useForm } from 'react-hook-form'
-import { apiGetProducts } from "src/apis/product"
+import { apiGetProducts, apiDeleteProduct } from "src/apis/product"
 
 import moment from "moment";
 
 import { useSearchParams, createSearchParams, useNavigate, useLocation } from "react-router-dom";
 import useDebounce from 'src/hooks/useDebounce';
+import UpdateProduct from './UpdateProduct';
+
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+// icons
+import { FaEdit } from "react-icons/fa";
+import { IoTrashBin } from "react-icons/io5";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
 
 
 const ManageProducts = () => {
@@ -17,10 +25,16 @@ const ManageProducts = () => {
     const { register, formState: { errors }, handleSubmit, reset, watch } = useForm();
     const [products, setProducts] = useState(null);
     const [counts, setCounts] = useState(0);
+    const [editProduct, setEditProduct] = useState(null);
+    const [update, setUpdate] = useState(false);
+    const [customizeVariant, setCustomizeVariant] = useState(null);
 
     // const handleSearchProducts = (data) => {
     //     console.log(data)
     // }
+    const render = useCallback(() => {
+        setUpdate(!update)
+    }, []);
 
     const fetchProducts = async (params) => {
         const response = await apiGetProducts({...params, limit: process.env.REACT_APP_LIMIT});
@@ -52,14 +66,49 @@ const ManageProducts = () => {
         // }
         fetchProducts(searchParams)
         // fetchProducts({...searchParams, q: queryDecounce})
-    }, [params]);
+    }, [params, update]);
 
-    console.log(products);
+    // console.log(products);
     // console.log(counts)
+
+    const handleDeleteProduct = (pid) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Are you sure remove this product",
+            icon: "warning",
+            showCancelButton: true
+        }).then( async (rs) => {
+            if (rs.isConfirmed) {
+                const response = await apiDeleteProduct(pid);
+                if (response.success) toast.success(response.mes)
+                else toast.error(response.mes)
+                render()
+            }
+        })
+    } 
 
     return (
         <div className='w-full flex flex-col gap-4 relative'>
             {/* <div className='p-4 border-b border  w-full justify-between items-center'> */}
+
+            {editProduct &&  
+                <div className='absolute inset-0 min-h-screen bg-gray-300 z-50'  >
+                    <UpdateProduct 
+                        editProduct={editProduct}
+                        render={render}
+                        setEditProduct={setEditProduct}
+                    />
+                </div>}
+
+                {customizeVariant &&  
+                <div className='absolute inset-0 min-h-screen bg-gray-300 z-50'  >
+                    <CustomizeVariants
+                        customizeVariant={customizeVariant}
+                        render={render}
+                        setCustomizeVariant={setCustomizeVariant}
+                    />
+                </div>}
+
             <div className='h-[69px] w-full'></div>
             <div className='p-4 h-[65px] flex justify-between items-center text-3xl font-bold px-4 border-b border-gray-300 fixed top-0'>
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Products</h1>
@@ -117,8 +166,15 @@ const ManageProducts = () => {
                             <td className='text-center py-2'>{el.totalRatings}</td>
                             <td className='text-center py-2'>{moment(el.createdAt).format("DD/MM/YYYY")}</td>
                             <td className='text-center py-2'>
-                                <span className='text-blue-500 hover:underline cursor-pointer px-1'>Edit</span>
-                                <span className='text-blue-500 hover:underline cursor-pointer px-1'>Delete</span>
+                                <span onClick={() => setEditProduct(el)} className='text-blue-500 inline-block hover:underline hover:text-orange-500 cursor-pointer px-1'>
+                                    <FaEdit size={20}/>
+                                </span>
+                                <span onClick={() => handleDeleteProduct(el._id)} className='text-blue-500 inline-block hover:text-orange-500 hover:underline cursor-pointer px-1'>
+                                    <IoTrashBin size={20} />
+                                </span>
+                                <span onClick={() => setCustomizeVariant(el)} className='text-blue-500 inline-block hover:text-orange-500 hover:underline cursor-pointer px-1'>
+                                    <MdOutlineDashboardCustomize size={20} />
+                                </span>
                             </td>
 
 

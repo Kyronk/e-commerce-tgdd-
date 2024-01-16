@@ -39,7 +39,12 @@ router.put("/uploadimage/:pid", [verifyAccessToken, isAdmin],
 //     ]), ctrl.uploadImageProduct);
 
 router.get("/:pid", ctrl.getOneProduct);
-router.put("/:pid", [verifyAccessToken, isAdmin], ctrl.updateProduct);
+// update
+router.put("/:pid", verifyAccessToken, isAdmin, uploader.fields([
+    {name: "images", maxCount: 10},
+    {name: "thumb", maxCount: 10}
+]) ,ctrl.updateProduct);
+
 router.delete("/:pid", [verifyAccessToken, isAdmin], ctrl.deleteProduct);
 
 // nên để mấy cái route ngắn vs có ký tự ít xuống dưới

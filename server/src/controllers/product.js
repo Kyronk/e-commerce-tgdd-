@@ -138,20 +138,26 @@ const getListProduct = asyncHandle(async (req, res) => {
 
 const updateProduct = asyncHandle(async (req, res) => {
     const {pid} = req.params;
+    const files = req?.files;
+    if (files?.thumb) req.body.thumb = files?.thumb[0]?.path;
+    if (files?.images) req.body.images = files?.images?.map(el => el.path);
     if(req.body && req.body.title) req.body.slug = slugify(req.body.title);
     const updateProduct = await Product.findByIdAndUpdate(pid, req.body, {new: true});
     return res.status(200).json({
         success: updateProduct ? true : false,
-        updateProduct: updateProduct ? updateProduct : "cannot update product"
+        // updateProduct: updateProduct ? updateProduct : "cannot update product"
+        mes: updateProduct ? "update successfully": " cannot update product"
     })
 })
 
+///
 const deleteProduct = asyncHandle(async (req, res) => {
     const {pid} = req.params;
     const deleteProduct = await Product.findByIdAndDelete(pid);
     return res.status(200).json({
         success: deleteProduct ? true : false,
-        deleteProduct: deleteProduct ? deleteProduct : "cannot delete product"
+        // deleteProduct: deleteProduct ? deleteProduct : "cannot delete product"
+        mes: deleteProduct? "Deleted." : "Cannot delete product!"
     })
 });
 

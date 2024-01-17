@@ -1,20 +1,21 @@
 const Product = require("../models/product");
 const asyncHandle = require("express-async-handler");
 const slugify = require("slugify");
+const makeSKU = require("uniqid");
 
 const creteProduct = asyncHandle(async (req, res) => {
     const { title, price, description, brand, category, color } = req.body;
     const thumb = req.files?.thumb[0]?.path;
     // console.log(thumb)
     const images = req.files?.images?.map(el => el.path);
-
     if (!(title && price && description && brand && category && color)) throw new Error("Missing inputs");
+    req.body.slug = slugify(title);
+    
     if (thumb) req.body.thumb = thumb;
     if (images) req.body.images = images;
     // if( Object.keys(req.body).length === 0) throw new Error("Missing inputs");
     
     //if(req.body && req.body.title) req.body.slug = slugify(req.body.title);
-    req.body.slug = slugify(title);
     
     const newProduct = await Product.create(req.body);
 
@@ -199,7 +200,7 @@ const ratings = asyncHandle(async (req, res) => {
     await updatedProduct.save();
 
     return res.status(200).json({
-        status: true,
+        success: true,
         updatedProduct
     })
 });
@@ -219,7 +220,29 @@ const uploadImageProduct = asyncHandle(async (req, res) => {
         success: response ? true : false,
         updateProduct: response ? response : "cannot update images"
     })
+});
+
+const addVariant = asyncHandle(async (req, res) => {
+    // console.log(req.files);
+    const {pid} = req.params;
+    const { title, price, color } = req.body;
+    const thumb = req.files?.thumb[0]?.path;
+    // console.log(thumb)
+    const images = req.files?.images?.map(el => el.path);
+    if (!(title && price  && color)) throw new Error("Missing inputs");
+    // req.body.slug = slugify(title);
+    const response = await Product.findByIdAndUpdate(pid, {
+        $push : {
+            variants: { color, price, title, thumb, images, sku: makeSKU().toUpperCase()}
+        }}, {new: true});
+
+    return res.status(200).json({
+        success: response ? true : false,
+        // response: response ? response : "cannot update images"
+        mes: response ? "update variant is success!" : "cannot update variant !"
+    })
 })
+
 
 
 module.exports = {
@@ -230,4 +253,5 @@ module.exports = {
     deleteProduct,
     ratings,
     uploadImageProduct,
+    addVariant, 
 }

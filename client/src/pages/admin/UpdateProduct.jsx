@@ -75,14 +75,6 @@ const UpdateProduct = ({editProduct, render, setEditProduct}) => {
     };
 
 
-    // const handleRemoveImage = (name) => {
-    //     const files = [...watch("images")];
-    //     reset({
-    //         images: files?.filter(el => el.name !== name)
-    //     })
-    //     if (preview.images?.some(el => el.name === name)) setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name)}))
-    // }
-
         
     useEffect(() => {
         // console.log(watch("thumb") instanceof FileList && watch("thumb").length > 0);

@@ -37,6 +37,10 @@ router.put("/uploadimage/:pid", [verifyAccessToken, isAdmin],
 //         {name: "images", maxCount: 10},
 //         {name: "thumb", maxCount: 1}
 //     ]), ctrl.uploadImageProduct);
+router.put("/variant/:pid", verifyAccessToken, isAdmin, uploader.fields([
+    {name: "images", maxCount: 10},
+    {name: "thumb", maxCount: 10}
+]) ,ctrl.addVariant);
 
 router.get("/:pid", ctrl.getOneProduct);
 // update

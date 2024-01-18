@@ -2,6 +2,7 @@ export { default as Header} from "./headers/Header";
 export { default as Banner} from "./common/Banner";
 export { default as Navigation} from "./navigation/Navigation";
 export { default as Sidebar } from "./sidebar/Sidebar";
+export { default as MemberSidebar } from "./sidebar/MemberSidebar";
 export { default as BestSeller } from "./products/BestSeller";
 export { default as Product} from "./products/Product";
 export { default as CustomizeVariants } from "./products/CustomizeVariants";
@@ -33,6 +34,7 @@ export { default as AdminSidebar } from "./sidebar/AdminSidebar";
 export { default as InputForm } from "./inputs/InputForm";
 export { default as Select } from "./inputs/Select";
 export { default as MarkdownEditor } from "./inputs/MarkdownEditor";
+
 
 
 

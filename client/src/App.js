@@ -28,6 +28,9 @@ import {
 import {
     MemberLayout,
     Personal,
+    History,
+    MyCart,
+    Wishlist,
 } from "./pages/member"
 
 import path from "./utils/path";
@@ -75,7 +78,10 @@ function App() {
                 
                 {/* user */}
                 <Route path={path.MEMBER} element={<MemberLayout />}>
-                    <Route path={path.PERSONAL}element={<Personal />} />
+                    <Route path={path.PERSONAL} element={<Personal />} />
+                    <Route path={path.MY_CART} element={<MyCart />} />
+                    <Route path={path.WISHLIST} element={<Wishlist />} />
+                    <Route path={path.HISTORY}  element={<History /> } />
                 </Route>
 
 

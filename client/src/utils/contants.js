@@ -288,6 +288,44 @@ export const adminSideBar = [
     // },
 ]
 
+export const memberSideBar = [
+    {
+        id: 1,
+        type: "SINGLE",
+        text: "Personal",
+        path: `/${path.MEMBER}/${path.PERSONAL}`,
+        icon: <AiOutlineDashboard />,
+    },
+    {
+        id: 2,
+        type: "SINGLE",
+        text: "My cart",
+        path: `/${path.MEMBER}/${path.MY_CART}`,
+        icon: <HiUserGroup />,
+    },
+    {
+        id: 3,
+        type: "SINGLE",
+        text: "Buy History",
+        path: `/${path.MEMBER}/${path.HISTORY}`,
+        icon: <MdOutlineBorderColor />,
+    },
+    {
+        id: 4,
+        type: "SINGLE",
+        text: "Wishlist",
+        path: `/${path.MEMBER}/${path.WISHLIST}`,
+        icon: <MdOutlineBorderColor />,
+    },
+    // {
+    //     id: 1,
+    //     type: "single",
+    //     text: "Dashboard",
+    //     path: `/${path.ADMIN}/${path.DASHBOARD}`,
+    //     icon: <AiOutlineDashboard />,
+    // },
+]
+
 export const roles = [
     {
         code: 1945,

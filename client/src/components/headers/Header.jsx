@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useState } from 'react'
+import React, { Fragment, memo, useEffect, useState } from 'react'
 
 import logo from "../../assets/logo_digi.png";
 import icons from "../../utils/icons";
@@ -19,6 +19,21 @@ const Header = () => {
     const dispatch = useDispatch();
     const { current } = useSelector(state => state.user);
     const [ isShowOption, setIsShowOption ] = useState(false);
+
+    useEffect(() => {   
+        const handleClickOutOptions = (e) => {
+            // console.log(e.target);
+            const profile = document.getElementById("profile");
+            // console.log(profile.contains(e.target));
+            if (!profile.contains(e.target)) setIsShowOption(false);
+        };
+
+        document.addEventListener("click", handleClickOutOptions);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutOptions);
+        }
+    }, []);
 
     return (
         <div className='w-main flex justify-between h-[110px] py-[35px]'>
@@ -60,13 +75,19 @@ const Header = () => {
                         className='flex cursor-pointer items-center justify-center px-6 gap-2 relative'
                         // to={+current?.role === 1945 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`}
                         onClick={() => setIsShowOption(prev => !prev)}
+                        id='profile'
                         >
                         <FaUser  size={24}/>
                         <span>Profile</span>
                         {isShowOption &&  
-                            <div className='absolute top-full flex-col flex left-[16px] bg-gray-100 border min-w-[150px] py-2'>
+                            <div onClick={(e) => e.stopPropagation() } className='absolute top-full flex-col flex left-[16px] bg-gray-100 border min-w-[150px] py-2'>
                                 <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.MEMBER}/${path.PERSONAL}`}>Personal</Link>
-                                {current.role === "1945" && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}>
+                                {/* khúc này bên backend nó trả về string
+                                    mà ở đây lại đi so sánh với number nên là
+                                    có 2 cách 1 là đổi string thành number 
+                                    2 là đổi 1945 thành "1945"
+                                */}
+                                {+current.role === 1945 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}>
                                     Admin workspace
                                 </Link>}
                                 <span onClick={() => dispatch(logout())} className='p-2 w-ful hover:bg-sky-100' >Logout</span>

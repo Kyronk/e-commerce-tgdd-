@@ -32,7 +32,7 @@ const MemberSidebar = () => {
             <div 
                 className='w-full flex flex-col items-center justify-center py-4'
                 >
-                <img src={current.image || avatarDefault} alt="" className='w-16 h-16 object-contain' />
+                <img src={current.avatar || avatarDefault} alt="" className='w-16 h-16 object-contain' />
                 <span>{`${current?.lastname} ${current?.firstname}`}</span>
             </div>
 

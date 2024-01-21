@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { InputForm, Button } from 'src/components'
 import { useForm } from 'react-hook-form'
-import { useSelector } from "react-redux";
+import { useSelector, uiseDispatch, useDispatch } from "react-redux";
 import moment from 'moment';
-
+import avatarDefault from "../../assets/avatarDefault.png";
+import { apiUpdateCurrent } from 'src/apis';
+import { toast} from "react-toastify";
+import { getCurrent } from 'src/store/user/asyncActionCurrent';
 
 const Personal = () => {
 
-    const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const { register, formState: { errors, isDirty }, handleSubmit, reset } = useForm();
     const { current } = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         reset({
@@ -21,9 +25,26 @@ const Personal = () => {
         })
     }, [ current ]);
 
-    const handleUpdateInfo = (data) => {
-        console.log(data)
+    const handleUpdateInfo = async (data) => {
+        // console.log(data)
+        const formData = new FormData();
+        if(data.avatar.length > 0) formData.append("avatar", data.avatar[0]);
+        delete data.avatar;
+        for (let i of Object.entries(data)) formData.append(i[0], i[1])
+
+        // console.log([...formData]);
+        const response = await apiUpdateCurrent(formData);
+        if (response.success) {
+            dispatch(getCurrent());
+            toast.success(response.mes);
+        } else toast.error(response.mes);
+
     }
+
+    // cái biến isDirty này là có săn nếu nó input có sự thay đổi thì sẽ log ra true còn không thì false
+    // cái này dùng trong edit nếu tất cả k có gì thay đổi so với ban đầu mà bắm update thì nó sẽ log ra là
+    // không có gì thay đổi và cũng sẽ k cần call api
+    // console.log(isDirty)
 
     return (
         <div className='w-full relative px-4'>
@@ -52,44 +73,67 @@ const Personal = () => {
                     }}
                 />
 
+
+    
                 <InputForm 
                     label="Email Address:"
                     register={register}
                     errors={errors}
                     id="email"
                     validate={{
-                        required: "Need fill this field"
+                        required: "Need fill this field",
+                        pattern: {
+                            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                            message: "Email invalid."
+                        }
                     }}
                 />
 
-                <InputForm 
-                    label="Phone:"
-                    register={register}
-                    errors={errors}
-                    id="mobile"
-                    validate={{
-                        required: "Need fill this field"
-                    }}
-                />
 
-                <div className='flex items-center gap-2'>
+                    <InputForm 
+                        label="Phone:"
+                        register={register}
+                        errors={errors}
+                        id="mobile"
+                        validate={{
+                            required: "Need fill this field",
+                            pattern: {
+                                value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/gm,
+                                message: "Phone invalid."
+                            }
+                        }}
+                    />
+
+                <div className='flex items-center gap-2 my-2'>
                     <span className='font-medium'>Account status:</span>
                     <span>{current?.isBlocked ? "Blocked" : "Actived"}</span>
                 </div>
 
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 my-2'>
                     <span className='font-medium'>Role:</span>
                     <span>{+current?.role === 1945 ? "Admin" : "User" }</span>
                 </div>
 
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 my-2'>
                     <span className='font-medium'>Created At:</span>
                     <span>{ moment(current?.createdAt).fromNow() }</span>
                 </div>
-                
-                <div className='w-full flex justify-end'>
-                    <Button type='submit'>Update information</Button>
+
+                <div className='flex flex-col gap-2 my-2'>
+                    <span className='font-medium' >Profile images:</span>
+                    <label htmlFor="file">
+                        <img src={current?.avatar || avatarDefault} alt="avatar" className='w-20 h-20 ml-8 object-cover rounded-full' />
+                    </label>
+                    <input 
+                        type="file" 
+                        id="file" 
+                        {...register("avatar")}
+                        hidden />
                 </div>
+                
+                {isDirty && <div className='w-full flex justify-end'>
+                    <Button type='submit'>Update information</Button>
+                </div>}
 
             </form>
         </div>

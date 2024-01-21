@@ -9,19 +9,28 @@ import { SelectOption } from "..";
 import icons from '../../utils/icons';
 
 import { Link } from 'react-router-dom';
+import withBaseComponent from 'src/hocs/withBaseComponent';
 // import path from '../utils/path';
 
 const { FaEye,IoMdMenu, FaHeart } = icons;
 
-const Product = ({ProductData, isNew, normal}) => {
+const Product = ({ProductData, isNew, normal, navigate}) => {
     // console.log(ProductData)
     const [ isShowOption, setIsShowOption] = useState(false);
 
+    const handleClickOption = (e, flag) => {
+        e.stopPropagation();
+        if( flag === "MENU") navigate(`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`);
+        if( flag === "WISHLIST") {console.log("wish list")}
+        if( flag === "QUICK_VIEW") { console.log("quick view")}
+    }
+
     return (
         <div className='w-full  text-base px-[10px]'>
-            <Link 
-                to={`${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`}
+            <div
+                // to={`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`}
                 className='w-full border p-[15px] flex flex-col items-center'
+                onClick={(e) => navigate(`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`)}
                 onMouseEnter={e => {
                     e.stopPropagation()
                     setIsShowOption(true)
@@ -35,9 +44,19 @@ const Product = ({ProductData, isNew, normal}) => {
                     {
                         isShowOption && 
                             <div className='absolute bottom-[-10px] left-0 right-0 flex justify-center gap-2 animate-slide-top'>
-                                <SelectOption icon={<FaEye />} />
-                                <SelectOption icon={<IoMdMenu />} />
-                                <SelectOption icon={<FaHeart /> } />
+                                <span onClick={(e) => {handleClickOption(e, "QUICK_VIEW")}} >
+                                    <SelectOption icon={<FaEye />} />
+                                </span>
+                                {/* <span onClick={() => navigate(`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`)}>
+                                    <SelectOption icon={<IoMdMenu />} />
+                                </span> */}
+                                <span onClick={(e) => {handleClickOption(e, "MENU")}}>
+                                    <SelectOption icon={<IoMdMenu />} />
+                                </span>
+
+                                <span onClick={(e) => {handleClickOption(e, "WISHLIST")}} >
+                                    <SelectOption icon={<FaHeart /> } />
+                                </span>
                                 
                             </div>
                     }
@@ -66,9 +85,10 @@ const Product = ({ProductData, isNew, normal}) => {
                     
                     <span>{`${formatMoney(ProductData?.price)} VNĐ`} </span>
                 </div>
-            </Link>
+            </div>
         </div>
     )
 }
 
-export default memo(Product);
+// export default memo(Product);
+export default withBaseComponent(Product);

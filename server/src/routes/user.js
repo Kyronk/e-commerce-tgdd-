@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const ctrl = require("../controllers/user");
+const uploader = require("../config/cloundinary.config");
+
 
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
@@ -11,7 +13,7 @@ router.put("/finalregister/:token", ctrl.finalRegister);
 
 router.post("/login", ctrl.login);
 
-router.get("/current", verifyAccessToken ,ctrl.getCurrent);
+router.get("/current", verifyAccessToken ,ctrl.getCurrent); // get profile user
 
 
 router.post("/refreshtoken", ctrl.refreshAccessToken);
@@ -35,7 +37,7 @@ router.use(verifyAccessToken);
 router.get("/getusers", isAdmin , ctrl.getListUser);
 router.delete("/:uid", isAdmin , ctrl.deleteUser);
 router.put("/address", ctrl.updateAddress);
-router.put("/current", ctrl.updateUser);
+router.put("/current",uploader.single("avatar") ,ctrl.updateUser);  // current này thì lại là update ???
 router.post("/cart", ctrl.updateCart);
 router.put("/:uid", isAdmin, ctrl.updateUserByAdmin);
 // tất cả các route viết dưới này đều phải xác thực người dùng thông qua token

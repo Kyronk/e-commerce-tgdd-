@@ -522,13 +522,20 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 const updateUser = asyncHandler(async (req, res) => {
     const { _id } = req.user;
+    const { firstname, lastname, email, mobile } = req.body;
+    const data = { firstname, lastname, email, mobile };
+    if( req.file) data.avatar = req.file.path;
     if(!_id || Object.keys(req.body).length === 0)  throw new Error("Missing inputs");
-    const response = await User.findByIdAndUpdate(_id, req.body, {new: true}).select("-password -role");
+    // update như vậy rất là nguy hiểm vì người dùng có thể sửa đổi những thứ không được phép như active hoặc role
+    // const response = await User.findByIdAndUpdate(_id, req.body, {new: true}).select("-password -role");
+    // const response = await User.findByIdAndUpdate(_id, { firstname, lastname, email, phone }, {new: true}).select("-password -role");
+    const response = await User.findByIdAndUpdate(_id, data, {new: true}).select("-password -role");
+
 
     return res.status(200).json({
         success: response ? true : false,
         mes: response ? "update is successfully": "some thing went wrong",
-        updatedUser: response ? response : "Some thing went wrong"
+        // updatedUser: response ? response : "Some thing went wrong"
     })
 });
 

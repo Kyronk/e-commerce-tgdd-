@@ -25,7 +25,7 @@ const Header = () => {
             // console.log(e.target);
             const profile = document.getElementById("profile");
             // console.log(profile.contains(e.target));
-            if (!profile.contains(e.target)) setIsShowOption(false);
+            if (!profile?.contains(e.target)) setIsShowOption(false);
         };
 
         document.addEventListener("click", handleClickOutOptions);

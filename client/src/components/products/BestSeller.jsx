@@ -6,6 +6,8 @@ import { Product, CustomSlider } from "..";
 // import Slider from "react-slick";
 import { getNewProduct } from "../../store/product/asyncProductAction";
 import { useDispatch, useSelector } from "react-redux";
+import clsx from 'clsx';
+// import { isShowModal} from ""
 
 const tabs = [
     { id: 1, name: "best sale" },
@@ -28,6 +30,7 @@ const BestSeller = () => {
 
     const dispatch = useDispatch();
     const {newProductList} = useSelector(state => state.productList);
+    const { isShowModal } = useSelector(state => state.app);
     // console.log(newProductList);
 
     const fetchProducts = async () => {
@@ -62,7 +65,7 @@ const BestSeller = () => {
     // console.log(bestSellers)
 
     return (
-        <div>
+        <div className={clsx(isShowModal ? "hidden" : "")}>
             <div className='flex text-[20px] ml-[-32px]'>
                 {/* <span className='font-bold capitalize border-r'>Best Seller</span> */}
                 {tabs.map((el) => (

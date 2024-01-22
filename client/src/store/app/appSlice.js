@@ -7,7 +7,9 @@ export const appSlice = createSlice({
         categories : null,
         isLoading: false,
         isShowModal: false,
-        modalChildren: null
+        modalChildren: null,
+        isShowCart: false,
+        
     },
     reducers: {
         showModal: (state, action) => {

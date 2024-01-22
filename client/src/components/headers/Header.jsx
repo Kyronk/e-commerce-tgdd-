@@ -60,7 +60,8 @@ const Header = () => {
                 {current && <Fragment>
                     <div className='flex items-center justify-center gap-2 px-6 border-r'> 
                         <FaShoppingBag color='red'/>
-                        <span>0 item(s)</span>
+                        {/* <span>0 item(s)</span> */}
+                        <span>{`${current?.cart?.length || 0}`} item(s)</span>
                     </div>
 
                     {/* <Link

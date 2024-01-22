@@ -37,7 +37,7 @@ import path from "./utils/path";
 
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from './components';
+import { Cart, Modal } from './components';
 
 function App() {
     const dispatch = useDispatch();
@@ -50,7 +50,12 @@ function App() {
 
     return (
         // <div className="min-h-screen font-main">
-        <div className="font-main relative">
+        <div className="font-main h-screen">
+            <div className='absolute inset-0 z-50 bg-black-800 backdrop-brightness-50 flex justify-end'>
+                <Cart />
+            </div>
+            
+
             {isShowModal && <Modal>{modalChildren}</Modal>}
 
             <Routes>

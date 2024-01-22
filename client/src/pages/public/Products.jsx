@@ -18,12 +18,13 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [ activeClick, setActiveClick ] = useState(null);
     const [params] = useSearchParams();
-    
-    console.log(params)
     const [sort, setSort] = useState("");
+    
+    // console.log(params)
 
     const fetchProductsByCategory = async (queries) => {
-        const response = await apiGetProducts(queries);
+        // const response = await apiGetProducts(queries);
+        const response = await apiGetProducts({...queries, category});
         // if(response.success) setProducts(response.productList);
         if (response.success) setProducts(response);
     };

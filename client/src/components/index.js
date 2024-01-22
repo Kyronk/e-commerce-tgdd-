@@ -6,6 +6,8 @@ export { default as MemberSidebar } from "./sidebar/MemberSidebar";
 export { default as BestSeller } from "./products/BestSeller";
 export { default as Product} from "./products/Product";
 export { default as CustomizeVariants } from "./products/CustomizeVariants";
+export { default as QuickView } from "./products/QuickView";
+export { default as Cart } from "./products/Cart";
 export { default as SelectOption } from "./search/SelectOption";
 export { default as DealDaily } from "./products/DealDaily";
 export { default as Countdown } from "./common/Countdown";

@@ -6,6 +6,7 @@ import { IoIosStar, IoIosStarOutline, IoMdMenu  } from "react-icons/io";
 import { IoLogOut } from "react-icons/io5";
 import { HiUserGroup } from "react-icons/hi";
 import { CiBoxes } from "react-icons/ci";
+import { FaCartPlus } from "react-icons/fa6";
 
 const icons = {
     MdLocalPhone,
@@ -25,6 +26,8 @@ const icons = {
     FaReply,
     FaTty,
     FaChevronDown, 
+
+    FaCartPlus,
 
     AiOutlineDashboard,
     HiUserGroup,

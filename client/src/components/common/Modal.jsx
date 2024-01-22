@@ -10,7 +10,7 @@ const Modal = ({children}) => {
     return (
         <div
             onClick={() => dispatch(showModal({ isShowModal: false, modalChildren: null}))} 
-            className='absolute inset-0 z-5000 bg-black-800 backdrop-brightness-50 flex items-center justify-center'>
+            className='absolute inset-0 z-99 bg-black-800 backdrop-brightness-50 flex items-center justify-center'>
             {children}
         </div>
     )

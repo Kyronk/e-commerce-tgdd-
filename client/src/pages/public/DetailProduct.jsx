@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
-import { apiGetProductItem, apiGetProducts } from '../../apis';
+import { createSearchParams, useParams } from "react-router-dom";
+import { apiGetProductItem, apiGetProducts, apiUpdateCart } from '../../apis';
 import { Breadcrumb, Button, SelectQuantity, ProductExtraInfoItem, ProductInformation, CustomSlider } from "../../components";
 
 // import { apiRatings } from '../../apis';
@@ -10,9 +10,16 @@ import ReactImageMagnify from 'react-image-magnify';
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../utils/helpers';
 
 import { productExtraInformation } from "../../utils/contants";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
 
 import DOMPurify from 'dompurify';
 import clsx from 'clsx';
+import withBaseComponent from 'src/hocs/withBaseComponent';
+import { getCurrent } from 'src/store/user/asyncActionCurrent';
+import path from 'src/utils/path';
 
 const settings = {
     dots: false,
@@ -23,9 +30,10 @@ const settings = {
 };
 
 
-const DetailProduct = ({ isQuickView, data }) => {
+const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
 
     const params = useParams();
+    const { current } = useSelector(state => state.user)
     // const { pid, title, category } = useParams();
     const [product, setProduct] = useState(null);
     const [currentImage, setCurrentImage] = useState("")
@@ -114,13 +122,36 @@ const DetailProduct = ({ isQuickView, data }) => {
         if (flag === "minus" && quantity === 1) return
         if (flag === "minus") setQuantity(prev => +prev - 1);
         if (flag === "plus") setQuantity(prev => +prev + 1);
-    }, []);
+    }, [quantity]);
 
     const handleClickImage = (e, el) => {
         e.stopPropagation();
         setCurrentImage(el)
     };
     // console.log(product?.totalRatings)
+
+    const handleAddToCart = async () => {
+        if(!current) {
+            return Swal.fire({
+                title: "Almost...",
+                text: "Please login first!",
+                icon: 'info',
+                cancelButtonText: 'Not now!',
+                showCancelButton: true,
+                confirmButtonText: "Go login page"
+            }).then((rs) => {
+                if (rs.isConfirmed) navigate({
+                    pathname: `/${path.LOGIN}`,
+                    search: createSearchParams({ redirect: location.pathname}).toString(),
+                })
+            })
+        }
+        const response = await apiUpdateCart({ pid, color: currentProduct.color , quantity });
+        if (response.success) {
+            toast.success(response.mes);
+            dispatch(getCurrent())
+        } else toast.error(response.mes);
+    }
 
     return (
         <div className='w-full'>
@@ -228,7 +259,7 @@ const DetailProduct = ({ isQuickView, data }) => {
                                 handleChangeQuantity={handleChangeQuantity}
                             />
                         </div>
-                        <Button fw>
+                        <Button handleOnClick={handleAddToCart} fw>
                             ADD TO CART
                         </Button>
                     </div>
@@ -276,4 +307,4 @@ const DetailProduct = ({ isQuickView, data }) => {
     )
 }
 
-export default DetailProduct
+export default withBaseComponent(DetailProduct);

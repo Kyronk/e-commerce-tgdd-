@@ -7,7 +7,7 @@ import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from '../.
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import path from '../../utils/path';
 import { validate } from '../../utils/helpers';
 
@@ -32,7 +32,9 @@ const Login = () => {
     const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
     const [invalidFields, setInvalidFields] = useState([]);
     const [ isRegister, setIsRegister] = useState(false);
-    const [isForgetPassword, setIsForgetPassword] = useState(false)
+    const [isForgetPassword, setIsForgetPassword] = useState(false);
+    const [ searchParams ] = useSearchParams();
+    // console.log(searchParams.get("redirect"))
     const resetPayload = () => {
         setPayload({
             email: "",
@@ -92,7 +94,7 @@ const Login = () => {
             if(response.success) {
                 dispatch(login({isLoggedIn: true, token: response.accessToken , userData: response.userData}))
                 resetPayload();
-                navigate(`/${path.HOME}`)
+                searchParams.get("redirect") ? navigate(searchParams.get("redirect")) :navigate(`/${path.HOME}`)
                 // Swal.fire("Congratulation", response.mes, "success").then(() => {
                 //     setIsRegister(false);
                 //     resetPayload()

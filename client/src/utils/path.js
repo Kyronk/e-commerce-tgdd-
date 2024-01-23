@@ -11,6 +11,7 @@ const path = {
     // DETAIL_PRODUCT: "san-pham",
     FINAL_REGISTER: "finalregister/:status",
     RESET_PASSWORD: "reset-password/:token",
+    DETAIL_CART: "my-cart",
 
     //Admin
     ADMIN: "admin",

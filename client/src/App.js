@@ -13,7 +13,8 @@ import {
     Products, 
     Blog,
     FinalRegister, 
-    ResetPassword
+    ResetPassword,
+    DetailCart,
 } from "./pages/public";
 
 import {
@@ -38,10 +39,11 @@ import path from "./utils/path";
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Cart, Modal } from './components';
+import { showCart } from './store/app/appSlice';
 
 function App() {
     const dispatch = useDispatch();
-    const { isShowModal, modalChildren } = useSelector(state => state.app);
+    const { isShowModal, modalChildren, isShowCart } = useSelector(state => state.app);
     // console.log(isShowModal, modalChildren);
 
     useEffect(() => {
@@ -51,9 +53,9 @@ function App() {
     return (
         // <div className="min-h-screen font-main">
         <div className="font-main h-screen">
-            <div className='absolute inset-0 z-50 bg-black-800 backdrop-brightness-50 flex justify-end'>
+            {isShowCart && <div onClick={() => dispatch(showCart())} className='absolute inset-0 z-50 bg-black-800 backdrop-brightness-50 flex justify-end'>
                 <Cart />
-            </div>
+            </div>}
             
 
             {isShowModal && <Modal>{modalChildren}</Modal>}
@@ -68,6 +70,7 @@ function App() {
                     <Route path={path.PRODUCTS} element={<Products />} />
 
                     <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+                    <Route path={path.DETAIL_CART} element={<DetailCart />} />
                     <Route path={path.ALL} element={<Home />} />
                     
                 </Route>

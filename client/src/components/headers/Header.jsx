@@ -8,6 +8,8 @@ import path from "../../utils/path";
 
 import { useDispatch ,useSelector } from 'react-redux'
 import { logout } from 'src/store/user/userSlice';
+import withBaseComponent from 'src/hocs/withBaseComponent';
+import { showCart } from 'src/store/app/appSlice';
 
 const {   MdLocalPhone,
     AiOutlineMail,
@@ -58,7 +60,7 @@ const Header = () => {
                 </div>
 
                 {current && <Fragment>
-                    <div className='flex items-center justify-center gap-2 px-6 border-r'> 
+                    <div onClick={() => dispatch(showCart())} className='flex items-center justify-center gap-2 px-6 border-r cursor-pointer'> 
                         <FaShoppingBag color='red'/>
                         {/* <span>0 item(s)</span> */}
                         <span>{`${current?.cart?.length || 0}`} item(s)</span>
@@ -104,4 +106,5 @@ const Header = () => {
     )
 }
 
-export default memo(Header);
+// export default memo(Header);
+export default withBaseComponent(memo(Header));

@@ -10,6 +10,8 @@ export const userSlice = createSlice({
         token: null,
         isLoading: false,
         mes: "",
+        currentCart: [],
+
     },
     reducers: {
         login: (state, action) => {
@@ -24,9 +26,13 @@ export const userSlice = createSlice({
             state.token = null;
             state.isLoading = false;
             state.mes = "";
+
         },
         clearMessage: (state, action) => {
             state.mes = "";
+        },
+        updateCart: (state, action) => {
+            console.log(action);
         }
     },
 
@@ -42,6 +48,7 @@ export const userSlice = createSlice({
             state.isLoading = false;
             state.current = action.payload;
             state.isLoggedIn = true;
+            state.currentCart = action.payload.cart;
         })
 
         //khi thực hiện thất bại
@@ -58,6 +65,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const { login, logout, clearMessage } = userSlice.actions
+export const { login, logout, clearMessage, updateCart } = userSlice.actions
 
 export default userSlice.reducer

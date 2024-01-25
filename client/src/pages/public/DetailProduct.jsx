@@ -74,8 +74,17 @@ const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
                 price: product?.variants?.find(el => el.sku === variant)?.price,
                 thumb: product?.variants?.find(el => el.sku === variant)?.thumb
             })
+        } else {
+            setCurrentProduct({
+                title: product?.title,
+                color: product?.color,
+                images: product?.images || [],
+                price: product?.price,
+                thumb: product?.thumb,
+            })
         }
     }, [variant]);
+    console.log(currentProduct)
 
     const fetchProductData = async () => {
         const response = await apiGetProductItem(pid);
@@ -146,7 +155,14 @@ const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
                 })
             })
         }
-        const response = await apiUpdateCart({ pid, color: currentProduct.color , quantity });
+        const response = await apiUpdateCart({ 
+            pid, 
+            color: currentProduct.color  || product?.color,
+            quantity, 
+            price: currentProduct.price || product?.price,
+            thumbnail: currentProduct.thumb || product.thumb,
+            title: currentProduct.title || product.title,
+        });
         if (response.success) {
             toast.success(response.mes);
             dispatch(getCurrent())

@@ -39,7 +39,7 @@ router.delete("/:uid", isAdmin , ctrl.deleteUser);
 router.put("/address", ctrl.updateAddress);
 router.put("/current",uploader.single("avatar") ,ctrl.updateUser);  // current này thì lại là update ???
 router.put("/cart", ctrl.updateCart);
-router.delete("/remove-cart/:pid", ctrl.removeProductInCart);
+router.delete("/remove-cart/:pid/:color", ctrl.removeProductInCart);
 router.put("/:uid", isAdmin, ctrl.updateUserByAdmin);
 // tất cả các route viết dưới này đều phải xác thực người dùng thông qua token
 

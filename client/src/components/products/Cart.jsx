@@ -13,8 +13,8 @@ import path from 'src/utils/path';
 
 const Cart = ({dispatch, navigate}) => {
 
-    const removeCart = async (id) => {
-        const response = await apiRemoveCart(id);
+    const removeCart = async (id, color) => {
+        const response = await apiRemoveCart(id, color);
         if (response.success) {
             // toast.success(response.mes);
             dispatch(getCurrent())
@@ -36,15 +36,15 @@ const Cart = ({dispatch, navigate}) => {
                 {current?.cart && current?.cart?.map(el => (
                     <div key={el._id} className='flex justify-between items-center'>
                         <div className='flex gap-2'>
-                            <img src={el.product?.thumb} alt="thumb" className='w-16 h-16 object-cover' />
+                            <img src={el.thumbnail} alt="thumb" className='w-16 h-16 object-cover' />
                             <div className='flex flex-col gap-1'>
-                                <span className='text-sm text-main'>{el.product?.title}</span>
+                                <span className='text-sm text-main'>{el.title}</span>
                                 <span className='text-[10px]'>{el.color}</span>
-                                <span className='text-sm'>{formatMoney(el.product?.price)  + " vnđ"}</span>
+                                <span className='text-sm'>{formatMoney(el.price)  + " vnđ"}</span>
                             </div>
                         </div>
                         <span
-                            onClick={() => removeCart(el.product?._id)} 
+                            onClick={() => removeCart(el.product?._id, el.color)} 
                             className='h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-700 cursor-pointer'>
                             <FaTrashAlt size={16}/>
                         </span>

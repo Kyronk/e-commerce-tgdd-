@@ -1,21 +1,30 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import { Breadcrumb, Button, SelectQuantity } from 'src/components';
+import { Breadcrumb, Button, OrderItem, SelectQuantity } from 'src/components';
+import withBaseComponent from 'src/hocs/withBaseComponent';
+import { updateCart } from 'src/store/user/userSlice';
 import { formatMoney } from 'src/utils/helpers';
 
-const DetailCart = ({location}) => {
+const DetailCart = ({location, dispatch}) => {
 
-    const { current } = useSelector(state => state.user);
-    const [quantity, setQuantity] = useState(1);
-    const handleQuantity = (number) => {
-        if (+number > 1 ) setQuantity(number);
-    };
+    const { currentCart  } = useSelector(state => state.user);
+    // console.log(currentCart)
+    const handleChangeQuantities = (pid, quantity, color) => {
+        // console.log({pid, quantity, color});
+        // console.log(currentCart);
+        dispatch(updateCart({pid, quantity, color}));
+    }
+    // const [quantity, setQuantity] = useState(1);
+    // const handleQuantity = (number) => {
+    //     if (+number > 1 ) setQuantity(number);
+    // };
 
-    const handleChangeQuantity = (flag) => {
-        if (flag === "minus" && quantity === 1) return
-        if (flag === "minus") setQuantity(prev => +prev - 1);
-        if (flag === "plus") setQuantity(prev => +prev + 1);
-    };
+    // const handleChangeQuantity = (flag) => {
+    //     if (flag === "minus" && quantity === 1) return
+    //     if (flag === "minus") setQuantity(prev => +prev - 1);
+    //     if (flag === "plus") setQuantity(prev => +prev + 1);
+    // };
+
 
 
     return (
@@ -34,32 +43,13 @@ const DetailCart = ({location}) => {
                     <span className='col-span-3 w-full text-center'>Price</span>
                 </div>
 
-                {current?.cart?.map(el => (
-                    <div key={el._id} className='w-main mx-auto font-bold border-b py-3 grid grid-cols-10'>
-                        <span className="col-span-6 w-ful text-center">
-                            <div className='flex gap-2'>
-                                <img src={el.product?.thumb} alt="thumb" className='w-28 h-28 object-cover' />
-                                <div className='flex flex-col items-start gap-1'>
-                                    <span className='text-sm text-main' >{el.product?.title}</span>
-                                    <span className='text-[10px] font-main'>{el.color}</span>
-                                    {/* <span className='text-sm'>{formatMoney(el.product?.price) + " vnđ"}</span> */}
-                                </div>
-                            </div>
-                        </span>
-
-                        <span className='col-span-1 w-full text-center'>
-                            <div className='flex items-center h-full'>
-                                <SelectQuantity
-                                    quantity={quantity}
-                                    handleQuantity={handleQuantity}
-                                    handleChangeQuantity={handleChangeQuantity}
-                                />
-                            </div>
-                        </span>
-                        <span className='col-span-3 w-full h-full flex items-center justify-center text-center'>
-                            <span className='text-sm'>{formatMoney(el.product?.price)  + " vnđ"}</span>
-                        </span>
-                    </div>
+                {currentCart?.map(el => (
+                    <OrderItem  
+                        el={el}  
+                        handleChangeQuantities={handleChangeQuantities} 
+                        key={el._id}
+                        defaultQuantity={el.quantity}
+                        />
                 ))}
 
             </div>
@@ -67,7 +57,8 @@ const DetailCart = ({location}) => {
             <div className='w-main mx-auto flex flex-col mb-12 justify-center items-end gap-3'>
                 <span className='flex items-center gap-8 text-sm'>
                     <span>Subtotal:</span>
-                    <span className='text-main font-bold'>{formatMoney(current?.cart?.reduce((sum,el) => sum + Number(el.product?.price), 0)) + " vnđ"}</span>
+                    {/* <span className='text-main font-bold'>{formatMoney(current?.cart?.reduce((sum,el) => sum + Number(el.product?.price), 0)) + " vnđ"}</span> */}
+                    <span className='text-main font-bold'>{formatMoney(currentCart?.reduce((sum,el) => sum + +el?.price, 0)) + " vnđ"}</span>
                 </span>
                 <span className='text-xs italic'>Shipping, taxes, and discounts calculated at checkout.</span>
                 <Button>Checkout</Button>
@@ -79,4 +70,4 @@ const DetailCart = ({location}) => {
     )
 }
 
-export default DetailCart
+export default withBaseComponent(DetailCart);

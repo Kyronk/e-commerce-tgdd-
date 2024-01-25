@@ -36,6 +36,7 @@ export { default as AdminSidebar } from "./sidebar/AdminSidebar";
 export { default as InputForm } from "./inputs/InputForm";
 export { default as Select } from "./inputs/Select";
 export { default as MarkdownEditor } from "./inputs/MarkdownEditor";
+export { default as OrderItem} from "./products/OrderItem";
 
 
 

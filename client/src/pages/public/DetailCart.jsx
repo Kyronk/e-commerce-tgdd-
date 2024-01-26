@@ -1,19 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 import { Breadcrumb, Button, OrderItem, SelectQuantity } from 'src/components';
 import withBaseComponent from 'src/hocs/withBaseComponent';
 import { updateCart } from 'src/store/user/userSlice';
 import { formatMoney } from 'src/utils/helpers';
+import path from 'src/utils/path';
 
 const DetailCart = ({location, dispatch}) => {
 
     const { currentCart  } = useSelector(state => state.user);
     // console.log(currentCart)
-    const handleChangeQuantities = (pid, quantity, color) => {
-        // console.log({pid, quantity, color});
-        // console.log(currentCart);
-        dispatch(updateCart({pid, quantity, color}));
-    }
+    // const handleChangeQuantities = (pid, quantity, color) => {
+    //     console.log({pid, quantity, color});
+    //     console.log(currentCart);
+    //     dispatch(updateCart({pid, quantity, color}));
+    // }
     // const [quantity, setQuantity] = useState(1);
     // const handleQuantity = (number) => {
     //     if (+number > 1 ) setQuantity(number);
@@ -31,8 +33,8 @@ const DetailCart = ({location, dispatch}) => {
         <div className='w-full'>
             <div className='h-[81px] flex justify-center items-center bg-gray-100'>
                 <div className='w-main'>
-                    <h3 className='font-semibold uppercase'>My Cart</h3>
-                    <Breadcrumb category={location?.pathname} />
+                    <h3 className='font-semibold text-2xl uppercase'>My Cart</h3>
+                    <Breadcrumb category={location?.pathname?.replace("/", "")?.split("-")?.join(" ")} />
                 </div>
             </div>
 
@@ -45,10 +47,15 @@ const DetailCart = ({location, dispatch}) => {
 
                 {currentCart?.map(el => (
                     <OrderItem  
-                        el={el}  
-                        handleChangeQuantities={handleChangeQuantities} 
+                        el={el?.product}  
+                        // handleChangeQuantities={handleChangeQuantities} 
                         key={el._id}
-                        defaultQuantity={el.quantity}
+                        dfQuantity={el.quantity}
+                        color={el.color}
+                        title={el.title}
+                        thumbnail={el.thumbnail}
+                        price={el.price}
+                        pid={el.product?._id}
                         />
                 ))}
 
@@ -58,10 +65,20 @@ const DetailCart = ({location, dispatch}) => {
                 <span className='flex items-center gap-8 text-sm'>
                     <span>Subtotal:</span>
                     {/* <span className='text-main font-bold'>{formatMoney(current?.cart?.reduce((sum,el) => sum + Number(el.product?.price), 0)) + " vnđ"}</span> */}
-                    <span className='text-main font-bold'>{formatMoney(currentCart?.reduce((sum,el) => sum + +el?.price, 0)) + " vnđ"}</span>
+                    <span className='text-main font-bold'>
+                        {/* {formatMoney(currentCart?.reduce((sum,el) => sum + +el?.price, 0)) + " vnđ"} */}
+                        {formatMoney(currentCart?.reduce((sum,el) => sum + (+el?.price  * el?.quantity), 0)) + " vnđ"}
+                    </span>
                 </span>
                 <span className='text-xs italic'>Shipping, taxes, and discounts calculated at checkout.</span>
-                <Button>Checkout</Button>
+                <Link
+                    target='_blank'
+                    to={`/${path.CHECKOUT}`}
+                >
+                    <Button>
+                        Checkout
+                    </Button>
+                </Link>
             </div>
 
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createSearchParams, useParams } from "react-router-dom";
 import { apiGetProductItem, apiGetProducts, apiUpdateCart } from '../../apis';
 import { Breadcrumb, Button, SelectQuantity, ProductExtraInfoItem, ProductInformation, CustomSlider } from "../../components";
@@ -32,6 +32,7 @@ const settings = {
 
 const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
 
+    const titleRef = useRef();
     const params = useParams();
     const { current } = useSelector(state => state.user)
     // const { pid, title, category } = useParams();
@@ -83,8 +84,8 @@ const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
                 thumb: product?.thumb,
             })
         }
-    }, [variant]);
-    console.log(currentProduct)
+    }, [variant, product]);
+    // console.log(currentProduct)
 
     const fetchProductData = async () => {
         const response = await apiGetProductItem(pid);
@@ -107,6 +108,7 @@ const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
             fetchProductList();
         };
         window.scrollTo(0, 0);
+        titleRef.current.scrollIntoView({ block: "start"});
     }, [pid])
 
     useEffect(() => {
@@ -173,7 +175,7 @@ const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
         <div className='w-full'>
             {!isQuickView &&
                 <div className='h-[81px] flex justify-center items-start bg-gray-100'>
-                    <div className='w-main'>
+                    <div ref={titleRef} className='w-main'>
                         {/* <h3 className='font-semibold'>{product?.variants?.find(el => el.sku === variant)?.title || product?.title}</h3> */}
                         {/* <Breadcrumb title={product?.variants?.find(el => el.sku === variant)?.title || product?.title} category={product?.category} /> */}
                         <h3 className='font-semibold'>{currentProduct.title || product?.title}</h3>

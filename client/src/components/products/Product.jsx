@@ -10,7 +10,7 @@ import { renderStarFromNumber } from "../../utils/helpers";
 import { SelectOption } from "..";
 import icons from '../../utils/icons';
 
-import { Link } from 'react-router-dom';
+import { Link, createSearchParams } from 'react-router-dom';
 import withBaseComponent from 'src/hocs/withBaseComponent';
 import { showModal } from 'src/store/app/appSlice';
 import { DetailProduct } from 'src/pages/public';
@@ -23,7 +23,7 @@ import { getCurrent } from 'src/store/user/asyncActionCurrent';
 
 const { FaEye,IoMdMenu, FaHeart, FaCartPlus } = icons;
 
-const Product = ({ProductData, isNew, normal, navigate, dispatch }) => {
+const Product = ({ProductData, isNew, normal, navigate, dispatch, location }) => {
     // console.log(ProductData)
     const [ isShowOption, setIsShowOption] = useState(false);
     const { current } = useSelector(state => state.user);
@@ -33,23 +33,51 @@ const Product = ({ProductData, isNew, normal, navigate, dispatch }) => {
         if( flag === "CART") {
             // navigate(`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`);
             // console.log(ProductData)
-            if(!current) {
-                return Swal.fire({
-                    title: "Almost...",
-                    text: "Please login first!",
-                    icon: 'info',
-                    cancelButtonText: 'Not now!',
-                    showCancelButton: true,
-                    confirmButtonText: "Go login page"
-                }).then((rs) => {
-                    if (rs.isConfirmed) navigate(`/${path.LOGIN}`)
-                })
-            }
-            const response = await apiUpdateCart({ pid: ProductData._id, color: ProductData.color });
-            if (response.success) {
-                toast.success(response.mes);
-                dispatch(getCurrent())
-            } else toast.error(response.mes);
+                if(!current) {
+                    return Swal.fire({
+                        title: "Almost...",
+                        text: "Please login first!",
+                        icon: 'info',
+                        cancelButtonText: 'Not now!',
+                        showCancelButton: true,
+                        confirmButtonText: "Go login page"
+                    }).then((rs) => {
+                        if (rs.isConfirmed) navigate({
+                            pathname: `/${path.LOGIN}`,
+                            search: createSearchParams({ redirect: location.pathname}).toString(),
+                        })
+                    })
+                }
+                const response = await apiUpdateCart({ 
+                    pid: ProductData?._id, 
+                    color: ProductData?.color,
+                    quantity: 1, 
+                    price: ProductData?.price,
+                    thumbnail: ProductData?.thumb,
+                    title: ProductData?.title,
+                });
+                if (response.success) {
+                    toast.success(response.mes);
+                    dispatch(getCurrent())
+                } else toast.error(response.mes);
+            
+            // if(!current) {
+            //     return Swal.fire({
+            //         title: "Almost...",
+            //         text: "Please login first!",
+            //         icon: 'info',
+            //         cancelButtonText: 'Not now!',
+            //         showCancelButton: true,
+            //         confirmButtonText: "Go login page"
+            //     }).then((rs) => {
+            //         if (rs.isConfirmed) navigate(`/${path.LOGIN}`)
+            //     })
+            // }
+            // const response = await apiUpdateCart({ pid: ProductData._id, color: ProductData.color });
+            // if (response.success) {
+            //     toast.success(response.mes);
+            //     dispatch(getCurrent())
+            // } else toast.error(response.mes);
 
         }
         if( flag === "WISHLIST") {console.log("wish list")}

@@ -32,7 +32,19 @@ export const userSlice = createSlice({
             state.mes = "";
         },
         updateCart: (state, action) => {
-            console.log(action);
+            // console.log(action);
+            const { pid, color, quantity } = action.payload;
+            // const updateItem = state.currentCart.find(el => el.color === color && el.product?._id === pid);
+            const updatingCart = JSON.parse(JSON.stringify(state.currentCart));
+            // console.log([...updateCart])
+            const updatedCart = updatingCart.map(el => {
+                if ( el.color === color && el.product?._id === pid) {
+                    return { ...el, quantity }
+                } else return el
+            })
+            state.currentCart = updatedCart;
+            // if ( updateItem) updateItem.quantity = quantity;
+            // else state.mes = 'Please try later'
         }
     },
 

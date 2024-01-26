@@ -32,6 +32,7 @@ import {
     History,
     MyCart,
     Wishlist,
+    CheckOut,
 } from "./pages/member"
 
 import path from "./utils/path";
@@ -71,7 +72,10 @@ function App() {
 
                     <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
                     <Route path={path.DETAIL_CART} element={<DetailCart />} />
+                    <Route path={path.CHECKOUT} element={<CheckOut /> }/>
                     <Route path={path.ALL} element={<Home />} />
+
+
                     
                 </Route>
                 {/* admin */}
@@ -87,7 +91,9 @@ function App() {
                 {/* user */}
                 <Route path={path.MEMBER} element={<MemberLayout />}>
                     <Route path={path.PERSONAL} element={<Personal />} />
-                    <Route path={path.MY_CART} element={<MyCart />} />
+                    {/* <Route path={path.MY_CART} element={<MyCart />} /> */}
+                    <Route path={path.MY_CART} element={<DetailCart />} />
+
                     <Route path={path.WISHLIST} element={<Wishlist />} />
                     <Route path={path.HISTORY}  element={<History /> } />
                 </Route>
@@ -102,7 +108,7 @@ function App() {
 
 
             <ToastContainer
-                position="top-center"
+                position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}

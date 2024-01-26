@@ -2,13 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { formatMoney } from 'src/utils/helpers';
 import { useSelector } from "react-redux";
 import { SelectQuantity } from '..';
+import { updateCart } from 'src/store/user/userSlice';
+import withBaseComponent from 'src/hocs/withBaseComponent';
 
 
-const OrderItem = ({el, handleChangeQuantities, defaultQuantity = 1}) => {
+const OrderItem = ({
+    el, 
+    dispatch,
+    color,
+    dfQuantity = 1,
+    price,
+    title,
+    thumbnail,
+    pid
+}) => {
 
-    console.log(defaultQuantity);
+    // console.log(defaultQuantity);
     // const { current } = useSelector(state => state.user);
-    const [quantity, setQuantity] = useState(() => defaultQuantity);
+    const [quantity, setQuantity] = useState(() => dfQuantity);
     const handleQuantity = (number) => {
         if (+number > 1 ) setQuantity(number);
     };
@@ -22,7 +33,12 @@ const OrderItem = ({el, handleChangeQuantities, defaultQuantity = 1}) => {
     };
 
     useEffect(() => {
-        handleChangeQuantities && handleChangeQuantities( el?.product?._id, quantity, el.color);
+        // handleChangeQuantities && handleChangeQuantities( el?.product?._id, quantity, el.color);
+        dispatch(updateCart({
+            pid,
+            quantity, 
+            color}));
+
     }, [ quantity ]);
 
     // set Quantity
@@ -31,10 +47,10 @@ const OrderItem = ({el, handleChangeQuantities, defaultQuantity = 1}) => {
         <div className='w-main mx-auto font-bold border-b py-3 grid grid-cols-10'>
                         <span className="col-span-6 w-ful text-center">
                             <div className='flex gap-2 px-4 py-3'>
-                                <img src={el?.thumbnail} alt="thumb" className='w-28 h-28 object-cover' />
+                                <img src={thumbnail } alt="thumb" className='w-28 h-28 object-cover' />
                                 <div className='flex flex-col items-start gap-1'>
-                                    <span className='text-sm text-main' >{el.title}</span>
-                                    <span className='text-[10px] font-main'>{el.color}</span>
+                                    <span className='text-sm text-main' >{title}</span>
+                                    <span className='text-[10px] font-main'>{color}</span>
                                     {/* <span className='text-sm'>{formatMoney(el.product?.price) + " vnđ"}</span> */}
                                 </div>
                             </div>
@@ -50,10 +66,10 @@ const OrderItem = ({el, handleChangeQuantities, defaultQuantity = 1}) => {
                             </div>
                         </span>
                         <span className='col-span-3 w-full h-full flex items-center justify-center text-center'>
-                            <span className='text-sm'>{formatMoney(el.price * quantity)  + " vnđ"}</span>
+                            <span className='text-sm'>{formatMoney(price * quantity)  + " vnđ"}</span>
                         </span>
                     </div>
     )
 }
 
-export default OrderItem
+export default withBaseComponent(OrderItem);

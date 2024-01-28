@@ -11,6 +11,7 @@ export { default as Cart } from "./products/Cart";
 export { default as SelectOption } from "./search/SelectOption";
 export { default as DealDaily } from "./products/DealDaily";
 export { default as Countdown } from "./common/Countdown";
+export { default as Congrat } from "./common/Congrat";
 export { default as FeatureProducts } from "./products/FeatureProducts";
 export { default as ProductCart } from "./products/ProductCart";
 export { default as CustomSlider } from "./common/CustomSlider";
@@ -37,7 +38,7 @@ export { default as InputForm } from "./inputs/InputForm";
 export { default as Select } from "./inputs/Select";
 export { default as MarkdownEditor } from "./inputs/MarkdownEditor";
 export { default as OrderItem} from "./products/OrderItem";
-
+export { default as Paypal } from "./common/Paypal";
 
 
 

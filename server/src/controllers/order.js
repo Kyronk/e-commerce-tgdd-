@@ -7,24 +7,33 @@ const asyncHandler = require("express-async-handler");
 
 const createOrder = asyncHandler(async (req, res) => {
     const {_id} = req.user;
-    const {coupon} = req.body;
-    const userCart = await User.findById(_id).select("cart").populate("cart.product", "title price");
-    const products = userCart?.cart?.map(el => ({
-        product: el.product._id,
-        count: el.quantity,
-        color: el.color
-    }));
-    let total = userCart?.cart?.reduce((sum,el) => el.product.price * el.quantity + sum, 0);
-    const createData = {products, total, orderBy: _id};
-    if(coupon) {
-        const selectedCount = await Coupon.findById(coupon);
-        total = Math.round(total * (1 - +selectedCount?.discount /100)/ 1000) * 1000 || total
+    const { products, total, address, status } = req.body;
+    if (address) {
+        await User.findByIdAndUpdate(_id, { address, cart: [] });
     }
+    const data = {products, total, postedBy: _id};
+    if (status) data.status = status
+
+    // const {coupon} = req.body;
+    // const userCart = await User.findById(_id).select("cart").populate("cart.product", "title price");
+    // const products = userCart?.cart?.map(el => ({
+    //     product: el.product._id,
+    //     count: el.quantity,
+    //     color: el.color
+    // }));
+    // let total = userCart?.cart?.reduce((sum,el) => el.product.price * el.quantity + sum, 0);
+    // const createData = {products, total, orderBy: _id};
+    // if(coupon) {
+    //     const selectedCount = await Coupon.findById(coupon);
+    //     total = Math.round(total * (1 - +selectedCount?.discount /100)/ 1000) * 1000 || total
+    // }
     // nếu người dùng có mã giảm giá
     // if(coupon) total = Math.round(total * (1 - coupon / 100) /100) * 1000;
 
     // const rs = await Order.create({products, total, orderBy: _id});
-    const rs = await Order.create(createData);
+    // const rs = await Order.create(createData);
+    // const rs = await Order.create({ products, total, postedBy: _id})
+    const rs = await Order.create(data)
     return res.json({
         success: rs ? true : false,
         rs: rs ? rs : "something"

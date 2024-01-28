@@ -33,6 +33,11 @@
 
     dompurify : tinymce tạo text <p> nội dung </p>, dompurify giúp chuyển ra và hiẻn thị lại 
 
+    npm i @paypal/react-paypal-js : làm cái thanh toán.
+
+    npm i react-confetti : hiệu ứng chúc mừng (ví dụ như làm cho ứng dụng test, kết quả game, hoàn thành một cái gì đó....)
+    npm i react-use : cài thêm chung vs thằng react confetti
+
     
 
 # lỗi out không cài được thư viện

@@ -38,4 +38,12 @@ export const apiAddVariant = (data, pid) => axios({
     url: "/product/variant/" + pid,
     method: "put",
     data
+});
+
+
+// api order
+export const apiCreateOrder = (data) => axios({
+    url: '/order/create',
+    method: "post",
+    data
 })

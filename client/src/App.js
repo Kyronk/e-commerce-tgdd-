@@ -61,7 +61,10 @@ function App() {
 
             {isShowModal && <Modal>{modalChildren}</Modal>}
 
-            <Routes>
+            <Routes>    
+                <Route path={path.CHECKOUT} element={<CheckOut /> }/>
+
+
                 <Route path={path.PUBLIC} element={<Public />}>
                     <Route path={path.HOME} element={<Home />} />
                     <Route path={path.BLOGS} element={<Blog />} />
@@ -72,7 +75,7 @@ function App() {
 
                     <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
                     <Route path={path.DETAIL_CART} element={<DetailCart />} />
-                    <Route path={path.CHECKOUT} element={<CheckOut /> }/>
+                    {/* <Route path={path.CHECKOUT} element={<CheckOut /> }/> */}
                     <Route path={path.ALL} element={<Home />} />
 
 

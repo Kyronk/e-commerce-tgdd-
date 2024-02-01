@@ -14,16 +14,26 @@ import { Link, createSearchParams } from 'react-router-dom';
 import withBaseComponent from 'src/hocs/withBaseComponent';
 import { showModal } from 'src/store/app/appSlice';
 import { DetailProduct } from 'src/pages/public';
-import { apiUpdateCart } from "src/apis";
+import { apiUpdateCart, apiUpdateWishlist } from "src/apis";
 import { useSelector} from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import path from 'src/utils/path';
 import { getCurrent } from 'src/store/user/asyncActionCurrent';
+import clsx from 'clsx';
 
 const { FaEye,IoMdMenu, FaHeart, FaCartPlus } = icons;
 
-const Product = ({ProductData, isNew, normal, navigate, dispatch, location }) => {
+const Product = ({
+    ProductData, 
+    isNew, 
+    normal, 
+    navigate, 
+    dispatch, 
+    location, 
+    pid,
+    classname
+}) => {
     // console.log(ProductData)
     const [ isShowOption, setIsShowOption] = useState(false);
     const { current } = useSelector(state => state.user);
@@ -31,8 +41,7 @@ const Product = ({ProductData, isNew, normal, navigate, dispatch, location }) =>
     const handleClickOption = async (e, flag) => {
         e.stopPropagation();
         if( flag === "CART") {
-            // navigate(`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`);
-            // console.log(ProductData)
+
                 if(!current) {
                     return Swal.fire({
                         title: "Almost...",
@@ -80,14 +89,22 @@ const Product = ({ProductData, isNew, normal, navigate, dispatch, location }) =>
             // } else toast.error(response.mes);
 
         }
-        if( flag === "WISHLIST") {console.log("wish list")}
-        if( flag === "QUICK_VIEW") { 
-            dispatch(showModal({isShowModal: true, modalChildren: <DetailProduct data={{pid: ProductData?._id, category: ProductData?.category}} isQuickView />}))
+        if( flag === "WISHLIST") {
+            // console.log(ProductData?._id)
+            // console.log(pid)
+            const response = await apiUpdateWishlist(pid);
+            if (response.success) {
+                dispatch(getCurrent());
+                toast.success(response.mes);
+            }else toast.error(response.mes);
         }
+        // if( flag === "QUICK_VIEW") { 
+        //     dispatch(showModal({isShowModal: true, modalChildren: <DetailProduct data={{pid: ProductData?._id, category: ProductData?.category}} isQuickView />}))
+        // }
     }
 
     return (
-        <div className='w-full  text-base px-[10px]'>
+        <div className={clsx('w-full  text-base px-[10px]', classname)}>
             <div
                 // to={`/${ProductData?.category?.toLowerCase()}/${ProductData?._id}/${ProductData?.title}`}
                 className='w-full border p-[15px] flex flex-col items-center'
@@ -130,7 +147,11 @@ const Product = ({ProductData, isNew, normal, navigate, dispatch, location }) =>
 
 
                                 <span title='Add to wishlist' onClick={(e) => {handleClickOption(e, "WISHLIST")}} >
-                                    <SelectOption icon={<FaHeart /> } />
+                                    <SelectOption icon={<FaHeart color={
+                                        current?.wishlist?.some((i) => i._id === pid) 
+                                        ? "red" 
+                                        : "gray"
+                                    } /> } />
                                 </span>
                                 
                             </div>

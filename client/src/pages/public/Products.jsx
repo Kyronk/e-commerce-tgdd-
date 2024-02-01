@@ -20,11 +20,12 @@ const Products = () => {
     const [params] = useSearchParams();
     const [sort, setSort] = useState("");
     
-    // console.log(params)
+    console.log(category);
 
     const fetchProductsByCategory = async (queries) => {
         // const response = await apiGetProducts(queries);
-        const response = await apiGetProducts({...queries, category});
+        if (category && category !== "products") queries.category =  category
+        const response = await apiGetProducts(queries);
         // if(response.success) setProducts(response.productList);
         if (response.success) setProducts(response);
     };
@@ -132,7 +133,7 @@ const Products = () => {
                     <Product
                         // key={index}
                         key={el._id}
-                        pid={el.id}
+                        pid={el._id}
                         ProductData={el}
                         normal={true}
                     />

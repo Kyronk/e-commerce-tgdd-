@@ -7,8 +7,8 @@ const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
 router.post("/create", verifyAccessToken, ctrl.createOrder);
 router.put("/status/:oid", [verifyAccessToken, isAdmin], ctrl.updateStatus);
-router.get("/user", verifyAccessToken, ctrl.getUserOrder);
 router.get("/admin", [verifyAccessToken, isAdmin], ctrl.getListOrder);
+router.get("/history-order", verifyAccessToken, ctrl.getUserOrder);
 
 // router.get("/list", ctrl.getListBrand);
 // router.put("/:brandid", [verifyAccessToken, isAdmin], ctrl.updateBrand);

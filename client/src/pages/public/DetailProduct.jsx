@@ -172,10 +172,10 @@ const DetailProduct = ({ isQuickView, data, location, navigate, dispatch }) => {
     }
 
     return (
-        <div className='w-full'>
+        <div ref={titleRef} className='w-full'>
             {!isQuickView &&
                 <div className='h-[81px] flex justify-center items-start bg-gray-100'>
-                    <div ref={titleRef} className='w-main'>
+                    <div  className='w-main'>
                         {/* <h3 className='font-semibold'>{product?.variants?.find(el => el.sku === variant)?.title || product?.title}</h3> */}
                         {/* <Breadcrumb title={product?.variants?.find(el => el.sku === variant)?.title || product?.title} category={product?.category} /> */}
                         <h3 className='font-semibold'>{currentProduct.title || product?.title}</h3>

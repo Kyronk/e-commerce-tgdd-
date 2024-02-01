@@ -24,6 +24,8 @@ router.post("/forgetpassword", ctrl.forgotPassword);
 
 router.put("/resetpassword", ctrl.resetPassword);
 
+router.put("/wishlist/:pid", verifyAccessToken, ctrl.updateWishlist);
+
 // chỗ sài middleware có 2 cách
 // một là truyền thêm verify vài trò như là một thằng lính canh 
 router.get("/getusers-test", [verifyAccessToken, isAdmin], ctrl.getListUser); // chỗ nà phải chuyển 2 cái midđleware

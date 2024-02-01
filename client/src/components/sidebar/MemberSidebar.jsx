@@ -1,7 +1,7 @@
 import React, {memo, Fragment, useState} from 'react'
 //import logo from "../../assets/logo_digi.png";
 import avatarDefault from "../../assets/avatarDefault.png";
-
+import { IoReturnUpForward } from "react-icons/io5";
 
 import { memberSideBar } from 'src/utils/contants';
 import { NavLink, Link } from 'react-router-dom';
@@ -79,7 +79,8 @@ const MemberSidebar = () => {
                         to={"/"}
                         className={clsx(notActivedStyle)}
                     >
-                        Go Home
+                        <IoReturnUpForward size={18} />
+                        Go home
                     </NavLink>
             </div>
 

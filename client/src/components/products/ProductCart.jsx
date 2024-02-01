@@ -1,9 +1,13 @@
 import React, {memo} from 'react'
 import { formatMoney, renderStarFromNumber } from '../../utils/helpers'
+import withBaseComponent from 'src/hocs/withBaseComponent';
 
-const ProductCart = ({ price, totalRatings, title, image }) => {
+const ProductCart = ({  price, totalRatings, title, image, pid, navigate, category }) => {
     return (
-        <div className='w-1/3 flex-auto px-[10px] mb-[20px]'>
+        <div 
+            onClick={(e) => navigate(`/${category?.toLowerCase()}/${pid}/${title}`)}
+            className='w-1/3 flex-auto px-[10px] mb-[20px] cursor-pointer'
+        >
             <div className='flex w-full border'>
                 <img src={image} alt="" className='w-[120px] object-contain p-4' />
 
@@ -22,4 +26,4 @@ const ProductCart = ({ price, totalRatings, title, image }) => {
     )
 }
 
-export default memo(ProductCart);
+export default withBaseComponent(memo(ProductCart));

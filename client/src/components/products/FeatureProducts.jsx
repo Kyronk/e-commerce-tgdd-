@@ -26,11 +26,13 @@ const FeatureProducts = () => {
                 {productList?.map(el => (
                     <ProductCart 
                         key={el._id}
+                        pid={el._id}
                         // product={el}
                         image={el.thumb}
-                        totalRatings={el.totalRatings}
-                        price={el.price}
-                        title={el.title}
+                        {...el}
+                        // totalRatings={el.totalRatings}
+                        // price={el.price}
+                        // title={el.title}
                     />
                 ))}
             </div>

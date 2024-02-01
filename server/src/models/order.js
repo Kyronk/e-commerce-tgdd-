@@ -28,6 +28,8 @@ var orderSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User",
     },
+}, {
+    timestamps: true
 });
 
 //Export the model

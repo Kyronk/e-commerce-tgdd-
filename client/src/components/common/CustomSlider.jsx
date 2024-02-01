@@ -21,7 +21,7 @@ const CustomSlider = ({ productList, activeTab, normal }) => {
                     <Product
                         key={el._id}
                         // key={index}
-                        pdi={el._id}
+                        pid={el._id}
                         ProductData={el}
                         isNew={activeTab === 1 ? false : true}
                         normal={normal}

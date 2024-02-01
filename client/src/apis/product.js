@@ -46,4 +46,10 @@ export const apiCreateOrder = (data) => axios({
     url: '/order/create',
     method: "post",
     data
+});
+
+export const apiGetUserOrders = (params) => axios({
+    url: "/order/history-order",
+    method: "get", 
+    params
 })

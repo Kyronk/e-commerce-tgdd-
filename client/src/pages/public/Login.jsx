@@ -191,6 +191,7 @@ const Login = () => {
                                 setValue={setPayload}
                                 invalidFields={invalidFields}
                                 setInvalidFields={setInvalidFields}
+                                fullWidth
                             />
                             <InputField 
                                 value={payload.lastname}
@@ -198,6 +199,7 @@ const Login = () => {
                                 setValue={setPayload}
                                 invalidFields={invalidFields}
                                 setInvalidFields={setInvalidFields}
+                                fullWidth
                             />   
                             
                         </div>}
@@ -208,6 +210,7 @@ const Login = () => {
                                 setValue={setPayload}
                                 invalidFields={invalidFields}
                                 setInvalidFields={setInvalidFields}
+                                fullWidth
                             />   }
                         <InputField 
                             value={payload.email}
@@ -215,6 +218,7 @@ const Login = () => {
                             setValue={setPayload}
                             invalidFields={invalidFields}
                             setInvalidFields={setInvalidFields}
+                            fullWidth
                         />
 
                         <InputField 
@@ -224,6 +228,7 @@ const Login = () => {
                             type={"password"}
                             invalidFields={invalidFields}
                             setInvalidFields={setInvalidFields}
+                            fullWidth
                         />
 
 
